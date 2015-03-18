@@ -1,0 +1,233 @@
+\begin{thebibliography}{47}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+
+\bibitem[{{Ahn} {et~al}\mbox{.}(2014){Ahn}, {Alexandroff}, {Allende Prieto},
+  {Anders}, {Anderson}, {Anderton}, {Andrews}, {Aubourg}, {Bailey}, {Bastien},
+  \& et~al.}]{Ahn2014}
+{Ahn} C.~P. {et~al.}, 2014, \apjs, 211, 17
+
+\bibitem[{{Ball} {et~al}\mbox{.}(2006){Ball}, {Brunner}, {Myers}, \&
+  {Tcheng}}]{ball2006robust}
+{Ball} N.~M., {Brunner} R.~J., {Myers} A.~D., {Tcheng} D., 2006, \apj, 650, 497
+
+\bibitem[{{Ben{\'{\i}}tez}(2000)}]{benitez2000bayesian}
+{Ben{\'{\i}}tez} N., 2000, \apj, 536, 571
+
+\bibitem[{{Bertin} \& {Arnouts}(1996)}]{bertin1996sextractor}
+{Bertin} E., {Arnouts} S., 1996, \aaps, 117, 393
+
+\bibitem[{Breiman(1996)}]{breiman1996stacked}
+Breiman L., 1996, Machine learning, 24, 49
+
+\bibitem[{Breiman(2001)}]{breiman2001random}
+Breiman L., 2001, Machine learning, 45, 5
+
+\bibitem[{Breiman {et~al}\mbox{.}(1984)Breiman, Friedman, Stone, \&
+  Olshen}]{breiman1984classification}
+Breiman L., Friedman J., Stone C.~J., Olshen R.~A., 1984, Classification and
+  regression trees. CRC press
+
+\bibitem[{Brier(1950)}]{brier1950verification}
+Brier G.~W., 1950, Monthly weather review, 78, 1
+
+\bibitem[{{Carrasco Kind} \& {Brunner}(2013)}]{carrascokind2013tpz}
+{Carrasco Kind} M., {Brunner} R.~J., 2013, \mnras, 432, 1483
+
+\bibitem[{{Carrasco Kind} \&
+  {Brunner}(2014{\natexlab{a}})}]{carrascokind2014exhausting}
+{Carrasco Kind} M., {Brunner} R.~J., 2014{\natexlab{a}}, \mnras, 442, 3380
+
+\bibitem[{{Carrasco Kind} \&
+  {Brunner}(2014{\natexlab{b}})}]{carrascokind2014somz}
+{Carrasco Kind} M., {Brunner} R.~J., 2014{\natexlab{b}}, \mnras, 438, 3409
+
+\bibitem[{{Coleman} {et~al}\mbox{.}(1980){Coleman}, {Wu}, \&
+  {Weedman}}]{coleman1980colors}
+{Coleman} G.~D., {Wu} C.-C., {Weedman} D.~W., 1980, \apjs, 43, 393
+
+\bibitem[{{Davis} {et~al}\mbox{.}(2003){Davis}, {Faber}, {Newman}, {Phillips},
+  {Ellis}, {Steidel}, {Conselice}, {Coil}, {Finkbeiner}, {Koo}, {Guhathakurta},
+  {Weiner}, {Schiavon}, {Willmer}, {Kaiser}, {Luppino}, {Wirth}, {Connolly},
+  {Eisenhardt}, {Cooper}, \& {Gerke}}]{Davis2003}
+{Davis} M. {et~al.}, 2003, in Society of Photo-Optical Instrumentation
+  Engineers (SPIE) Conference Series, Vol. 4834, Discoveries and Research
+  Prospects from 6- to 10-Meter-Class Telescopes II, {Guhathakurta} P., ed.,
+  pp. 161--172
+
+\bibitem[{{Erben} {et~al}\mbox{.}(2013){Erben}, {Hildebrandt}, {Miller}, {van
+  Waerbeke}, {Heymans}, {Hoekstra}, {Kitching}, {Mellier}, {Benjamin}, {Blake},
+  {Bonnett}, {Cordes}, {Coupon}, {Fu}, {Gavazzi}, {Gillis}, {Grocutt}, {Gwyn},
+  {Holhjem}, {Hudson}, {Kilbinger}, {Kuijken}, {Milkeraitis}, {Rowe},
+  {Schrabback}, {Semboloni}, {Simon}, {Smit}, {Toader}, {Vafaei}, {van Uitert},
+  \& {Velander}}]{Erben2013}
+{Erben} T. {et~al.}, 2013, \mnras, 433, 2545
+
+\bibitem[{{Fadely} {et~al}\mbox{.}(2012){Fadely}, {Hogg}, \&
+  {Willman}}]{Fadely2012}
+{Fadely} R., {Hogg} D.~W., {Willman} B., 2012, \apj, 760, 15
+
+\bibitem[{{Foreman-Mackey} {et~al}\mbox{.}(2013){Foreman-Mackey}, {Hogg},
+  {Lang}, \& {Goodman}}]{Foreman-Mackey2013}
+{Foreman-Mackey} D., {Hogg} D.~W., {Lang} D., {Goodman} J., 2013, \pasp, 125,
+  306
+
+\bibitem[{{Garilli} {et~al}\mbox{.}(2014){Garilli}, {Guzzo}, {Scodeggio},
+  {Bolzonella}, {Abbas}, {Adami}, {Arnouts}, {Bel}, {Bottini}, {Branchini},
+  {Cappi}, {Coupon}, {Cucciati}, {Davidzon}, {De Lucia}, {de la Torre},
+  {Franzetti}, {Fritz}, {Fumana}, {Granett}, {Ilbert}, {Iovino}, {Krywult}, {Le
+  Brun}, {Le F{\`e}vre}, {Maccagni}, {Ma{\l}ek}, {Marulli}, {McCracken},
+  {Paioro}, {Polletta}, {Pollo}, {Schlagenhaufer}, {Tasca}, {Tojeiro},
+  {Vergani}, {Zamorani}, {Zanichelli}, {Burden}, {Di Porto}, {Marchetti},
+  {Marinoni}, {Mellier}, {Moscardini}, {Nichol}, {Peacock}, {Percival},
+  {Phleps}, \& {Wolk}}]{Garilli2014}
+{Garilli} B. {et~al.}, 2014, \aap, 562, A23
+
+\bibitem[{{Garilli} {et~al}\mbox{.}(2008){Garilli}, {Le F{\`e}vre}, {Guzzo},
+  {Maccagni}, {Le Brun}, {de la Torre}, {Meneux}, {Tresse}, {Franzetti},
+  {Zamorani}, {Zanichelli}, {Gregorini}, {Vergani}, {Bottini}, {Scaramella},
+  {Scodeggio}, {Vettolani}, {Adami}, {Arnouts}, {Bardelli}, {Bolzonella},
+  {Cappi}, {Charlot}, {Ciliegi}, {Contini}, {Foucaud}, {Gavignaud}, {Ilbert},
+  {Iovino}, {Lamareille}, {McCracken}, {Marano}, {Marinoni}, {Mazure},
+  {Merighi}, {Paltani}, {Pell{\`o}}, {Pollo}, {Pozzetti}, {Radovich}, {Zucca},
+  {Blaizot}, {Bongiorno}, {Cucciati}, {Mellier}, {Moreau}, \&
+  {Paioro}}]{Garilli2008}
+{Garilli} B. {et~al.}, 2008, \aap, 486, 683
+
+\bibitem[{{G{\'o}rski} {et~al}\mbox{.}(2005){G{\'o}rski}, {Hivon}, {Banday},
+  {Wandelt}, {Hansen}, {Reinecke}, \& {Bartelmann}}]{gorski2005healpix}
+{G{\'o}rski} K.~M., {Hivon} E., {Banday} A.~J., {Wandelt} B.~D., {Hansen}
+  F.~K., {Reinecke} M., {Bartelmann} M., 2005, \apj, 622, 759
+
+\bibitem[{Gwyn(2012)}]{gwyn2012canada}
+Gwyn S.~D., 2012, The Astronomical Journal, 143, 38
+
+\bibitem[{{Henrion} {et~al}\mbox{.}(2011){Henrion}, {Mortlock}, {Hand}, \&
+  {Gandy}}]{henrion2011bayesian}
+{Henrion} M., {Mortlock} D.~J., {Hand} D.~J., {Gandy} A., 2011, \mnras, 412,
+  2286
+
+\bibitem[{{Heymans} {et~al}\mbox{.}(2012){Heymans}, {Van Waerbeke}, {Miller},
+  {Erben}, {Hildebrandt}, {Hoekstra}, {Kitching}, {Mellier}, {Simon},
+  {Bonnett}, {Coupon}, {Fu}, {Harnois D{\'e}raps}, {Hudson}, {Kilbinger},
+  {Kuijken}, {Rowe}, {Schrabback}, {Semboloni}, {van Uitert}, {Vafaei}, \&
+  {Velander}}]{Heymans2012}
+{Heymans} C. {et~al.}, 2012, \mnras, 427, 146
+
+\bibitem[{{Hildebrandt} {et~al}\mbox{.}(2012){Hildebrandt}, {Erben}, {Kuijken},
+  {van Waerbeke}, {Heymans}, {Coupon}, {Benjamin}, {Bonnett}, {Fu}, {Hoekstra},
+  {Kitching}, {Mellier}, {Miller}, {Velander}, {Hudson}, {Rowe}, {Schrabback},
+  {Semboloni}, \& {Ben{\'{\i}}tez}}]{Hildebrandt2012}
+{Hildebrandt} H. {et~al.}, 2012, \mnras, 421, 2355
+
+\bibitem[{{Kaiser} {et~al}\mbox{.}(1995){Kaiser}, {Squires}, \&
+  {Broadhurst}}]{Kaiser1995}
+{Kaiser} N., {Squires} G., {Broadhurst} T., 1995, \apj, 449, 460
+
+\bibitem[{{Kinney} {et~al}\mbox{.}(1996){Kinney}, {Calzetti}, {Bohlin},
+  {McQuade}, {Storchi-Bergmann}, \& {Schmitt}}]{kinney1996template}
+{Kinney} A.~L., {Calzetti} D., {Bohlin} R.~C., {McQuade} K., {Storchi-Bergmann}
+  T., {Schmitt} H.~R., 1996, \apj, 467, 38
+
+\bibitem[{Kohonen(1990)}]{kohonen1990self}
+Kohonen T., 1990, Proceedings of the IEEE, 78, 1464
+
+\bibitem[{Kohonen(2001)}]{kohonen2001self}
+Kohonen T., 2001, Self-organizing maps, Vol.~30. Springer Science \& Business
+  Media
+
+\bibitem[{{Kron}(1980)}]{kron1980photometry}
+{Kron} R.~G., 1980, \apjs, 43, 305
+
+\bibitem[{{Le F{\`e}vre} {et~al}\mbox{.}(2005){Le F{\`e}vre}, {Vettolani},
+  {Garilli}, {Tresse}, {Bottini}, {Le Brun}, {Maccagni}, {Picat}, {Scaramella},
+  {Scodeggio}, {Zanichelli}, {Adami}, {Arnaboldi}, {Arnouts}, {Bardelli},
+  {Bolzonella}, {Cappi}, {Charlot}, {Ciliegi}, {Contini}, {Foucaud},
+  {Franzetti}, {Gavignaud}, {Guzzo}, {Ilbert}, {Iovino}, {McCracken}, {Marano},
+  {Marinoni}, {Mathez}, {Mazure}, {Meneux}, {Merighi}, {Paltani}, {Pell{\`o}},
+  {Pollo}, {Pozzetti}, {Radovich}, {Zamorani}, {Zucca}, {Bondi}, {Bongiorno},
+  {Busarello}, {Lamareille}, {Mellier}, {Merluzzi}, {Ripepi}, \&
+  {Rizzo}}]{LeFevre2005}
+{Le F{\`e}vre} O. {et~al.}, 2005, \aap, 439, 845
+
+\bibitem[{{Messier}(1781)}]{messier1781catalogue}
+{Messier} C., 1781, Connoissance des Temps for 1784, 227
+
+\bibitem[{Monteith {et~al}\mbox{.}(2011)Monteith, Carroll, Seppi, \&
+  Martinez}]{Monteith2011}
+Monteith K., Carroll J.~L., Seppi K., Martinez T., 2011, in Neural Networks
+  (IJCNN), The 2011 International Joint Conference on, IEEE, pp. 2657--2663
+
+\bibitem[{{Newman} {et~al}\mbox{.}(2013){Newman}, {Cooper}, {Davis}, {Faber},
+  {Coil}, {Guhathakurta}, {Koo}, {Phillips}, {Conroy}, {Dutton}, {Finkbeiner},
+  {Gerke}, {Rosario}, {Weiner}, {Willmer}, {Yan}, {Harker}, {Kassin},
+  {Konidaris}, {Lai}, {Madgwick}, {Noeske}, {Wirth}, {Connolly}, {Kaiser},
+  {Kirby}, {Lemaux}, {Lin}, {Lotz}, {Luppino}, {Marinoni}, {Matthews},
+  {Metevier}, \& {Schiavon}}]{Newman2013a}
+{Newman} J.~A. {et~al.}, 2013, \apjs, 208, 5
+
+\bibitem[{{Odewahn} {et~al}\mbox{.}(1992){Odewahn}, {Stockwell}, {Pennington},
+  {Humphreys}, \& {Zumach}}]{odewahn1992automated}
+{Odewahn} S.~C., {Stockwell} E.~B., {Pennington} R.~L., {Humphreys} R.~M.,
+  {Zumach} W.~A., 1992, \aj, 103, 318
+
+\bibitem[{{Pickles}(1998)}]{pickles1998stellar}
+{Pickles} A.~J., 1998, \pasp, 110, 863
+
+\bibitem[{{Robin} {et~al}\mbox{.}(2007){Robin}, {Rich}, {Aussel}, {Capak},
+  {Tasca}, {Jahnke}, {Kakazu}, {Kneib}, {Koekemoer}, {Leauthaud}, {Lilly},
+  {Mobasher}, {Scoville}, {Taniguchi}, \& {Thompson}}]{robin2007stellar}
+{Robin} A.~C. {et~al.}, 2007, \apjs, 172, 545
+
+\bibitem[{Rokach(2010)}]{rokach2010ensemble}
+Rokach L., 2010, Artificial Intelligence Review, 33, 1
+
+\bibitem[{{Ross} {et~al}\mbox{.}(2011){Ross}, {Ho}, {Cuesta}, {Tojeiro},
+  {Percival}, {Wake}, {Masters}, {Nichol}, {Myers}, {de Simoni}, {Seo},
+  {Hern{\'a}ndez-Monteagudo}, {Crittenden}, {Blanton}, {Brinkmann}, {da Costa},
+  {Guo}, {Kazin}, {Maia}, {Maraston}, {Padmanabhan}, {Prada}, {Ramos},
+  {Sanchez}, {Schlafly}, {Schlegel}, {Schneider}, {Skibba}, {Thomas}, {Weaver},
+  {White}, \& {Zehavi}}]{ross2011ameliorating}
+{Ross} A.~J. {et~al.}, 2011, \mnras, 417, 1350
+
+\bibitem[{{Sebok}(1979)}]{sebok1979optimal}
+{Sebok} W.~L., 1979, \aj, 84, 1526
+
+\bibitem[{{Soumagnac} {et~al}\mbox{.}(2013){Soumagnac}, {Abdalla}, {Lahav},
+  {Kirk}, {Sevilla}, {Bertin}, {Rowe}, {Annis}, {Busha}, {Da Costa}, {Frieman},
+  {Gaztanaga}, {Jarvis}, {Lin}, {Percival}, {Santiago}, {Sabiu}, {Wechsler},
+  {Wolz}, \& {Yanny}}]{soumagnac2013star}
+{Soumagnac} M.~T. {et~al.}, 2013, ArXiv e-prints
+
+\bibitem[{{Suchkov} {et~al}\mbox{.}(2005){Suchkov}, {Hanisch}, \&
+  {Margon}}]{suchkov2005census}
+{Suchkov} A.~A., {Hanisch} R.~J., {Margon} B., 2005, \aj, 130, 2439
+
+\bibitem[{Swets {et~al}\mbox{.}(2000)Swets, Dawes, \&
+  Monahan}]{swets2000better}
+Swets J.~A., Dawes R.~M., Monahan J., 2000, Scientific American, 83
+
+\bibitem[{Ting \& Witten(1999)}]{ting1999issues}
+Ting K.~M., Witten I.~H., 1999, J. Artif. Intell. Res.(JAIR), 10, 271
+
+\bibitem[{{Valdes}(1982)}]{valdes1982resolution}
+{Valdes} F., 1982, in Society of Photo-Optical Instrumentation Engineers (SPIE)
+  Conference Series, Vol. 331, Instrumentation in Astronomy IV, pp. 465--472
+
+\bibitem[{{Vasconcellos} {et~al}\mbox{.}(2011){Vasconcellos}, {de Carvalho},
+  {Gal}, {LaBarbera}, {Capelato}, {Frago Campos Velho}, {Trevisan}, \&
+  {Ruiz}}]{vasconcellos2011decision}
+{Vasconcellos} E.~C., {de Carvalho} R.~R., {Gal} R.~R., {LaBarbera} F.~L.,
+  {Capelato} H.~V., {Frago Campos Velho} H., {Trevisan} M., {Ruiz} R.~S.~R.,
+  2011, \aj, 141, 189
+
+\bibitem[{{Weir} {et~al}\mbox{.}(1995){Weir}, {Fayyad}, \&
+  {Djorgovski}}]{weir1995automated}
+{Weir} N., {Fayyad} U.~M., {Djorgovski} S., 1995, \aj, 109, 2401
+
+\bibitem[{Wolpert(1992)}]{wolpert1992stacked}
+Wolpert D.~H., 1992, Neural networks, 5, 241
+
+\bibitem[{{Yee}(1991)}]{yee1991faint}
+{Yee} H.~K.~C., 1991, \pasp, 103, 396
+
+\end{thebibliography}
