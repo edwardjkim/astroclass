@@ -418,14 +418,14 @@ Furthermore, similar to \texttt{TPC},
 we use the OOB technique to make an unbiased estimation of errors.
 For a complete description of the SOM implementation
 and its application to the estimation of
-photo-$z$ probability distribution funtions,
+photo-$z$ probability distribution functions,
 we refer the reader to \cite{carrascokind2014somz}.
 
 \subsection{Template fitting: Hierarchical Bayesian}
 
 One of the most common methods to classify a source
 based on its observed magnitudes is template fitting.
-Template fitting algorithms are unsupervised;
+Template fitting algorithms do not require a spectroscopic training sample;
 there is no need for additional knowledge outside the
 observed data and the template SEDs.
 However, any incompleteness in our knowledge of the template SEDs
@@ -596,7 +596,8 @@ In this binning strategy,
 we allow different classifier combinations 
 in different parts of parameter space
 by creating two-dimensional SOM representations of
-the full nine-dimensional magnitude-color space.
+the full nine-dimensional magnitude-color space:
+$u$, $g$, $r$, $i$, $z$, $u-g$, $g-r$, $r-i$, and $i-z$.
 A SOM representation can be rectangular, hexagonal, or spherical;
 here we choose a 10$\times$10 rectangular topology to facilitate 
 visualization as shown in Figure.~\ref{fig:som_colors}.
@@ -741,7 +742,8 @@ correctly predicts class $\hat{y}_i$ for the $i^{\text{th}}$ object,
 and $P\left(d|e\right) = \epsilon$ if it predicts an incorrect class.
 The average rate $\epsilon$ can be estimated by
 the fraction $\left(M_g + M_s\right) / N$,
-where $M_g$ are $M_s$ are defined in Table~\ref{table:def_numbers},
+where $M_g$ is the number of true galaxies classified as stars,
+$M_s$ is the number of true stars classified as galaxies,
 and $N$ is the total number of sources.
 Equation~\ref{eq:p_ensemble} then becomes
 
@@ -764,19 +766,19 @@ and write Equation~\ref{eq:p_ensemble} as
 \end{equation}
 
 
-\begin{table}
-  \caption{The definition of the number of stars/galaxies
-           classified and misclassified as stars/galaxies.}
-  \centering
-  \begin{tabular}{ l | c | c }
-    \hline
-                           & True galaxies & True stars \\ \hline
-    Classified as galaxies & $N_g$ & $M_s$ \\ \hline
-    Classified as stars & $M_g$ & $N_s$ \\
-    \hline
-  \end{tabular}
-  \label{table:def_numbers}
-\end{table}
+%%\begin{table}
+%%  \caption{The definition of the number of stars/galaxies
+%%           classified and misclassified as stars/galaxies.}
+%%  \centering
+%%  \begin{tabular}{ l | c | c }
+%%    \hline
+%%                           & True galaxies & True stars \\ \hline
+%%    Classified as galaxies & $N_g$ & $M_s$ \\ \hline
+%%    Classified as stars & $M_g$ & $N_s$ \\
+%%    \hline
+%%  \end{tabular}
+%%  \label{table:def_numbers}
+%%\end{table}
 
 Although the space $\mathbf{E}$ of potential model combinations
 is in principle infinite,
@@ -920,7 +922,8 @@ c_g = \frac{N_g}{N_g + M_g},
 \end{equation}
 
 \noindent
-where $N_g$ and $M_g$ are define in Table~\ref{table:def_numbers}.
+where $N_g$ is the number of true galaxies classified as galaxies
+and $M_g$ is the number of true galaxies classified as stars.
 We define the galaxy \textit{purity} $p_g$ (also known as precision
 or positive predictive value)
 as the fraction of the number of true galaxies classified as galaxies
@@ -930,7 +933,7 @@ p_g = \frac{N_g}{N_g + M_s},
 \end{equation}
 
 \noindent
-where $N_g$ and $M_g$ are define in Table~\ref{table:def_numbers}.
+where $M_s$ is the number of true stars classified as galaxies.
 Star completeness and purity are defined in a similar manner.
 
 
