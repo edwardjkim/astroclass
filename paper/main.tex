@@ -529,6 +529,14 @@ which span all normal spectral types
 and luminosity classes at solar abundance,
 as well as metal-poor and metal-rich F-K dwarf 
 and G-K giant and supergiant stars.
+\textcolor{blue}{
+We supplement the stellar library with
+100 SEDs from \cite{chabrier2000evolutionary},
+which include low mass stars and brown dwarfs
+with different $T_{eff}$ and surface gravities.
+We also include four white dwarf templates of
+\cite{bohlin1995white}.
+}
 For our galaxy templates,
 we use the four CWW spectra from \cite{coleman1980colors},
 which include an Elliptical, an Sba, an Sbb,
@@ -536,7 +544,11 @@ and an Irregular galaxy template.
 When extending an analysis to higher redshift,
 the CWW library is often augmented with
 two star bursting galaxy templates from \cite{kinney1996template}.
-\textcolor{red}{interpolated}.
+\textcolor{blue}{
+From the six original CWW and Kinney spectra,
+intermediate templates are created by interpolation
+for a total of 51 SEDs.
+}
 
 All of the above templates are convolved
 with the filter response curves to generate model magnitudes.
