@@ -9,6 +9,7 @@
 \usepackage{amssymb}
 \usepackage[normalem]{ulem}
 \usepackage{natbib}
+\usepackage{url}
 
 \def\aap{{ A\&A}}
 \def\AaA{{ A\&A}}
@@ -766,20 +767,6 @@ and write Equation~\ref{eq:p_ensemble} as
 \end{equation}
 
 
-%%\begin{table}
-%%  \caption{The definition of the number of stars/galaxies
-%%           classified and misclassified as stars/galaxies.}
-%%  \centering
-%%  \begin{tabular}{ l | c | c }
-%%    \hline
-%%                           & True galaxies & True stars \\ \hline
-%%    Classified as galaxies & $N_g$ & $M_s$ \\ \hline
-%%    Classified as stars & $M_g$ & $N_s$ \\
-%%    \hline
-%%  \end{tabular}
-%%  \label{table:def_numbers}
-%%\end{table}
-
 Although the space $\mathbf{E}$ of potential model combinations
 is in principle infinite,
 we can produce a reasonable finite set
@@ -833,7 +820,7 @@ the Canada-France-Hawaii Telescope Lensing Survey
 {Heymans2012,Erben2013,Hildebrandt2012}.
 This catalog consits of more than twenty five million objects
 with a limiting magnitude of $i_{\text{AB}} \approx 25.5$. 
-It covers a total of 154 square degress
+It covers a total of 154 square degrees
 in the four fields of CFHT Legacy Survey~\citep[CFHTLS;][]{gwyn2012canada}
 observed in the five photometric bands:
 $u$, $g$, $r$, $i$, and $z$.
@@ -1006,22 +993,6 @@ as a classification error metric.
            The bold entries highlight the best performance values
            within each column.}
   \centering
-%  \begin{tabular}{l c c c c c c}
-%    Classifier & AUC & MSE &
-%    $p_{g}\left(c_g=0.9964\right)$ & $p_{s}\left(c_s=0.7145\right)$ &
-%    $p_{g}\left(c_g=0.9600\right)$ & $p_{s}\left(c_s=0.2500\right)$ \\
-%    \hline
-%    TPC  & 0.9870 & 0.02081 & 0.9717 & 0.9843 & 0.9925 & 0.9977\\
-%    SOMc & 0.9683 & 0.04520 & 0.9099 & 0.8487 & 0.9781 & 0.9844\\
-%    HB   & 0.8954 & 0.08777 & 0.9048 & 0.7407 & 0.9593 & 0.7609\\
-%    Morphology   & -      & 0.0397 & 0.9597 & 0.9666 & - & -\\
-%    WA   & 0.9718 & 0.03292 & 0.9703 & 0.9876 & 0.9766 & 1.0000\\
-%    BoM  & 0.9870 & 0.02081 & 0.9733 & 0.9843 & 0.9925 & 0.9977\\
-%    Stacking  & \textbf{0.9878} & 0.02043 & 0.9729 & 0.9909 &
-%    \textbf{0.9928} & 1.0000\\
-%    BMC  & 0.9849 & \textbf{0.01911} & \textbf{0.9797} & \textbf{0.9950} &
-%    0.9916 & 1.0000\\
-%  \end{tabular}
   \input{tables/metrics_all.tex}
   \label{table:metrics_all}
 \end{table*}
@@ -1048,18 +1019,18 @@ BoM almost always chooses \texttt{TPC} as the best model,
 and therefore gives the same performance as \texttt{TPC} in the end.
 However, our BMC and stacking techniques have a similar performance
 and often outperform \texttt{TPC}.
-We observe that our stacking algorithm shows the best performance
-as measured by the AUC,
-while BMC shows the best performance
-as measured by the MSE.
+\textcolor{blue}{
+Although \texttt{TPC} shows the best performance as measured by the AUC,
+BMC shows the best performance in all other metrics.
+}
 
 \begin{figure*}
   \begin{minipage}[b]{0.49\linewidth}
     \includegraphics[width=\textwidth]{figures/som_colors.eps}
     \caption{A two-dimensional 10$\times$10 SOM representation
-             showing the mean $i$-band magnitude (top left) and
-             the mean values of three colors,
-             $u-g$, $g-r$, and $i-z$,
+             showing the mean $i$-band magnitude (top left),
+             the fraction of true stars in each cell (top right),
+             and the mean values of $u-g$ and $g-r$
              for the cross validation data.}
     \label{fig:som_colors}
   \end{minipage}
@@ -1074,17 +1045,16 @@ as measured by the MSE.
 \end{figure*}
 
 In Figure~\ref{fig:som_colors}, we show
-the mean CFHTLenS $i$-band magnitude in the top right panel,
-and the mean $u-g$, $g-r$, and $i-z$ colors in the remaining three panels.
+the mean CFHTLenS $i$-band magnitude in the top left panel
+\textcolor{blue}{
+and the fraction of stars in each cell in the top right panel.
+}
+The bottom two panels show the mean $u-g$ and  $g-r$ colors.
 These two-dimensional maps clearly shows
-the ability of the SOM to preserve
-relationships between sources
-when it projects the full nine-dimensional space to
-the two-dimensional map.
-The SOM mapping is a non-linear representation of
-all magnitudes and colors,
-and thus the CHFTLenS $i$-band magnitude and color maps should 
-only be used to provide guidance.
+the ability of the SOM to preserve relationships between sources
+when it projects the full nine-dimensional space to the two-dimensional map.
+The SOM mapping is a non-linear representation of all magnitudes and colors,
+and thus these SOM maps should only be used to provide guidance.
 
 We can also use the same SOM to determine the relative weights for 
 the four individual classification methods for each cell.
@@ -1096,7 +1066,7 @@ These weight maps demonstrate the variation in
 the performance of the individual techniques across
 the two-dimensional parameter space defined by the SOM.
 Not surprisingly, the morphological separation
-performs best in the lower right corner of the $i$-band magnitude map,
+performs best in the top left corner of the $i$-band magnitude map,
 which corresponds to the brightest CFHTLenS magnitudes $i \lesssim 20$.
 On the other hand, \texttt{TPC} seems to perform best
 in the region that corresponds to intermediate magnitudes
@@ -1104,22 +1074,53 @@ $20\gtrsim i \lesssim22.5$ and $1.5<u-g<3.0$.
 Our unsupervised learning method \texttt{SOMc}
 performs relatively better at fainter magnitudes $i>21.5$
 with $0<u-g<0.5$ and $0<g-r<0.5$.
-The BMC technique assigns almost no weight to
-the worst-performing algorithm, \texttt{HB},
-when there is a wealth of training data.
+\textcolor{blue}{
+Although \texttt{HB} shows the worst performance
+when there exists ample training data,
+BMC still utilizes information from \texttt{HB}
+to produce an overall improvement in performance,
+especially at intermediate magnitudes $20\gtrsim i \lesssim20$.
+}
 
-\subsection{Insufficient Training Data}
-  \label{section:poor_training}
-  
+\subsection{The Quality of Training Data}
+  \label{section:quality_training}
+
 It is very costly in terms of telescope time to
 obtain a large sample spectroscopic observations
 down to the limiting magnitude of a photometric sample.
 Thus, we investigate the impact of training set quality
-by considering a more realistic case
+by gradually decreasing the size of the training set.
+
+\begin{figure*}
+  \begin{minipage}[b]{0.49\linewidth}
+    \includegraphics[width=\textwidth]{figures/perform_mag_cut.eps}
+    \caption{The classification performance metrics for TPC, HB, morphology,
+      and BMC as applied to the CFHTLenS data in the VVDS field
+      with various magnitude cuts.
+      We show only one of the four combination methods, BMC,
+      which has the best overall performance.}
+    \label{fig:perform_mag_cut}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.49\linewidth}
+    \includegraphics[width=\textwidth]{figures/perform_z_cut.eps}
+    \caption{Same as Figure.~\ref{fig:perform_mag_cut} using
+      $z_{\text{spec}}$ cuts.}
+    \label{fig:perform_z_cut}
+  \end{minipage}
+\end{figure*}
+
+
+\subsection{Insufficient Training Data}
+  \label{section:poor_training}
+  
+We also investigate the impact of training set quality
+by analyzing in detail a more realistic case
 where the training data is available
 only for a small number of objects at bright magnitudes.
 To emulate this scenario,
-we only use objects that have spectroscopic labels from the VVDS
+we only use objects that have spectroscopic labels
+from the VVDS 0226-04 field (which is located within the CFHTLS W1 field)
 and impose a magnitude cut of $i < 22.0$ in the training data,
 leaving us a training set with 6,361 objects.
 
@@ -1372,9 +1373,30 @@ or by developing a classification technique specifically designed
 for these regions of the color space and
 combining it with other techniques in a Bayesian framework.
 
-
 \section{Conclusions}
   \label{section:conclusions}
+
+\textcolor{blue}{begin new text}
+
+We have presented and analyzed a novel star-galaxy classification framework
+for combining classifications from the CFHTLenS project.
+In particular, we use four independent star-galaxy classification techniques:
+a morphological separation method;
+\texttt{TPC}, a supervised machine learning technique
+based on prediction trees and a random forest;
+\texttt{SOMc}, an unsupervised machine leraning approach
+based on self-organizing maps and a random atlas;
+and \texttt{HB}, a hierarichical bayesian template-fitting method
+that we have modified and parallized.
+Both \texttt{TPC} and \texttt{SOMc} are currently availble within
+a software package named
+\texttt{MLZ}\footnote{http://lcdm.astro.illinois.edu/code/mlz.html}.
+Our implementaion of \texttt{HB} and \texttt{BMC},
+as well as IPython notebooks that were used to
+produce the results in this paper,
+are available at \url{https://github.com/EdwardJKim/astroclass}.
+
+\textcolor{blue}{end new text}
 
 When there's wealth of training data,
 TPC is so good that combination techniques show
@@ -1390,13 +1412,19 @@ Probabilistic classification is better.
 Binary classification can be transformed into a probabilistic
 classification when combined with other models in a Bayesian framework.
 
+We note that \cite{carrascokind2014exhausting} analyzed
+different techniques for combining
+photometric redshift probability density functions (photo-$z$ PDFs),
+and also found that BMC is in general the best
+photo-$z$ PDF combination technique.
+
 \textcolor{red}{more here}
 
 \section*{Acknowledgements}
 
 We thank the referee for a careful reading of the manuscript
 and comments that improved this work.
-We thank Nacho Sevilla \textcolor{red}{Jacobo? anyone else?} for helpful and insightful conversations.
+We thank Ignacio Sevilla for helpful and insightful conversations.
 We acknowledge support from the National Science Grant No.
 \textcolor{red}{XXXX}.
 
