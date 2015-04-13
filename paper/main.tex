@@ -1025,7 +1025,7 @@ BMC shows the best performance in all other metrics.
 }
 
 \begin{figure*}
-  \begin{minipage}[b]{0.49\linewidth}
+  \begin{minipage}[t]{0.49\linewidth}
     \includegraphics[width=\textwidth]{figures/som_colors.eps}
     \caption{A two-dimensional 10$\times$10 SOM representation
              showing the mean $i$-band magnitude (top left),
@@ -1035,7 +1035,7 @@ BMC shows the best performance in all other metrics.
     \label{fig:som_colors}
   \end{minipage}
   \hfill
-  \begin{minipage}[b]{0.49\linewidth}
+  \begin{minipage}[t]{0.49\linewidth}
     \includegraphics[width=\textwidth]{figures/weights.eps}
     \caption{A two-dimensional 10$\times$10 SOM representation
              showing the relative weights for the BMC combination technique
@@ -1079,8 +1079,44 @@ Although \texttt{HB} shows the worst performance
 when there exists ample training data,
 BMC still utilizes information from \texttt{HB}
 to produce an overall improvement in performance,
-especially at intermediate magnitudes $20\gtrsim i \lesssim20$.
+especially at intermediate magnitudes $20\gtrsim i \lesssim22$.
 }
+
+In Figure~\ref{fig:purity_mag}, 
+we compare the star and galaxy purity values
+for morphological separation, TPC, and BMC techniques
+as a function of $i$-band magnitude.
+Although morphological separation shows a slightly better performance
+at bright magnitudes $i < 21$,
+BMC outperforms both morphological separation and TPC
+at faint magnitudes $i > 21$.
+As shown in the histogram, the histogram peaks at $i \sim 22$,
+and BMC therefore outperforms the morphological separation technique
+for the majority of objects.
+It is also clear that BMC outperforms TPC over all magnitudes.
+BMC can accomplish this by combining information from
+all base classifiers,
+\eg giving more weight to the morphological separation method
+at bright magnitudes.
+
+\begin{figure}
+%%  \begin{minipage}[t]{0.49\linewidth}
+    \includegraphics[width=\textwidth]{figures/purity_mag.eps}
+    \caption{Purity of morphological separation,
+             TPC, and BMC techniques in 
+             Table~\ref{table:metrics_vvds}
+             as a function of the $i$-band magnitude.
+             The top panel shows the histogram of objects in the test data set.
+             The second panel shows the fraction of stars
+             as a function of magnitude. The error bars are Poisson.
+             The bottom two panels compares
+             the galaxy and star purity for morphological separation, TPC,
+             and BMC techniques as a function of magnitude.
+             The error bars for completeness and purity are not shown for
+             clarity, but they are approximately 10 percent.
+             }.
+    \label{fig:purity_mag}
+\end{figure}
 
 \subsection{The Quality of Training Data}
   \label{section:quality_training}
@@ -1089,20 +1125,30 @@ It is very costly in terms of telescope time to
 obtain a large sample spectroscopic observations
 down to the limiting magnitude of a photometric sample.
 Thus, we investigate the impact of training set quality
-by gradually decreasing the size of the training set.
+by imposing various magnitude and $z$ cuts
+to decrease the size of the training set.
+
+In Figure.~\ref{fig:perform_mag_cut}, we present
+a visual comparison between different classification techniques
+when various magnitude cuts are applied.
+
+In Figure.~\ref{fig:perform_z_cut}, we also present
+the result of imposing various $z$ cuts.
 
 \begin{figure*}
-  \begin{minipage}[b]{0.49\linewidth}
+  \begin{minipage}[t]{0.49\linewidth}
     \includegraphics[width=\textwidth]{figures/perform_mag_cut.eps}
     \caption{The classification performance metrics for TPC, HB, morphology,
       and BMC as applied to the CFHTLenS data in the VVDS field
       with various magnitude cuts.
+      The top panel shows the number of sources in the training set
+      at corresponding magnitude cuts.
       We show only one of the four combination methods, BMC,
       which has the best overall performance.}
     \label{fig:perform_mag_cut}
   \end{minipage}
   \hfill
-  \begin{minipage}[b]{0.49\linewidth}
+  \begin{minipage}[t]{0.49\linewidth}
     \includegraphics[width=\textwidth]{figures/perform_z_cut.eps}
     \caption{Same as Figure.~\ref{fig:perform_mag_cut} using
       $z_{\text{spec}}$ cuts.}
@@ -1122,7 +1168,7 @@ To emulate this scenario,
 we only use objects that have spectroscopic labels
 from the VVDS 0226-04 field (which is located within the CFHTLS W1 field)
 and impose a magnitude cut of $i < 22.0$ in the training data,
-leaving us a training set with 6,361 objects.
+leaving us a training set with 1,365 objects.
 
 \begin{table*}
   \caption{A summary of the classification performance metrics
@@ -1252,7 +1298,7 @@ and BMC uses almost no morphological information at faint magnitudes.
 
 \begin{figure*}
   \begin{minipage}[t]{0.49\linewidth}
-    \includegraphics[width=\textwidth]{figures/purity_mag.eps}
+    \includegraphics[width=\textwidth]{figures/purity_mag_cut.eps}
     \caption{Purity of morphological separation,
              TPC, and BMC techniques in 
              Table~\ref{table:metrics_vvds}
@@ -1265,7 +1311,7 @@ and BMC uses almost no morphological information at faint magnitudes.
              and BMC technique.
              We use the same threshold values from 
              Figure~\ref{fig:purity_mag} in the bottom four panels}.
-    \label{fig:purity_mag}
+    \label{fig:purity_mag_cut}
   \end{minipage}
   \hfill
   \begin{minipage}[t]{0.49\linewidth}
