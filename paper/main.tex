@@ -10,6 +10,7 @@
 \usepackage[normalem]{ulem}
 \usepackage{natbib}
 \usepackage{url}
+\usepackage{float}
 
 \def\aap{{ A\&A}}
 \def\AaA{{ A\&A}}
@@ -55,7 +56,28 @@ $^3$National Center for Supercomputing Applications, Urbana, IL 61801 USA}
 
 \label{firstpage}
 \begin{abstract}
-\textcolor{red}{Abstract goes here.}
+\textcolor{blue}{
+Star-galaxy separation in currently ongoing and future
+large photometric surveys, such as DES and LSST,
+will detect a vast number of unresolved galaxies at faint magnitudes.
+There exist a variety of star-galaxy classification techniques,
+each with their own strenths and weaknesses.
+In this paper, we present a novel hybrid, ensemble classification
+framework that combines and fully exploits different techniques
+to produce a more robust classification.
+To demonstrate this hybrid technique,
+we combine a purely morphological classifier,
+a supervised machine learning technique based on random forest,
+an unsupervised method based on self-organizing maps,
+and a heirarchical Bayeisan template fitting algorithm.
+Any of these four methods could
+easily be replaced by a similar method
+or be extended to include other existing techniques.
+Testing with CFHTLenS data,
+we demonstrate that our combination technique improves
+the overall performance over any individual classification method.
+}
+
 \end{abstract}
 
 \begin{keywords}
@@ -1082,7 +1104,68 @@ to produce an overall improvement in performance,
 especially at intermediate magnitudes $20\gtrsim i \lesssim22$.
 }
 
-In Figure~\ref{fig:purity_mag}, 
+
+%\begin{figure*}
+%  \begin{minipage}[t]{0.49\linewidth}
+%    \includegraphics[width=\textwidth]{figures/purity_mag.eps}
+%    \caption{Purity of morphological separation,
+%             TPC, and BMC techniques in 
+%             as a function of the $i$-band magnitude.
+%             The top panel shows the histogram of objects in the test data set.
+%             The second panel shows the fraction of stars
+%             as a function of magnitude. The error bars are Poisson.
+%             The bottom two panels compare
+%             the galaxy and star purity for morphological separation, TPC,
+%             and BMC techniques as a function of magnitude.
+%             The error bars for completeness and purity are not shown for
+%             clarity, but they are approximately 10 percent.}
+%    \label{fig:purity_mag}
+%  \end{minipage}
+%  \hfill
+%  \begin{minipage}[t]{0.49\linewidth}
+%    \includegraphics[width=\textwidth]{figures/purity_z.eps}
+%    \caption{The same figures as Figure~\ref{fig:purity_mag},
+%             but as a function of photometric redshift estimate
+%             (photo-$z$).}
+%    \label{fig:purity_z}
+%  \end{minipage}
+%\end{figure*}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figures/purity_mag.eps}
+  \caption{Purity of morphological separation,
+           TPC, and BMC techniques in 
+           as a function of the $i$-band magnitude.
+           The top panel shows the histogram of objects in the test data set.
+           The second panel shows the fraction of stars
+           as a function of magnitude. The error bars are Poisson.
+           The bottom two panels compare
+           the galaxy and star purity for morphological separation, TPC,
+           and BMC techniques as a function of magnitude.
+           The error bars for completeness and purity are not shown for
+           clarity, but they are approximately 10 percent.}
+  \label{fig:purity_mag}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figures/purity_z.eps}
+  \caption{The same figures as Figure~\ref{fig:purity_mag},
+           but as a function of photometric redshift estimate
+           (photo-$z$).}
+  \label{fig:purity_z}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figures/purity_g-r.eps}
+  \caption{The same figure as Figure~\ref{purity_mag},
+           but as a function of $g-r$ color.}
+  \label{fig:purity_g-r}
+\end{figure}
+
+\textcolor{blue}{In Figure~\ref{fig:purity_mag}, 
 we compare the star and galaxy purity values
 for morphological separation, TPC, and BMC techniques
 as a function of $i$-band magnitude.
@@ -1090,104 +1173,42 @@ Although morphological separation shows a slightly better performance
 at bright magnitudes $i < 21$,
 BMC outperforms both morphological separation and TPC
 at faint magnitudes $i > 21$.
-As shown in the histogram, the histogram peaks at $i \sim 22$,
+As shown in Figure.~\ref{fig:purity_mag},
+the histogram of distribution of objects peaks at $i \sim 22$,
 and BMC therefore outperforms the morphological separation technique
 for the majority of objects.
 It is also clear that BMC outperforms TPC over all magnitudes.
-BMC can accomplish this by combining information from
+BMC can presumably accomplish this by combining information from
 all base classifiers,
 \eg giving more weight to the morphological separation method
-at bright magnitudes.
+at bright magnitudes.}
+
+\textcolor{blue}{We also show the star and galaxy purity values
+of Table~\ref{table:metrics_all} as a function of
+photometric redshift in Figure~\ref{fig:purity_z}.
+Photo-$z$ is estimated with
+the \texttt{BPZ} algorithm~\citep{benitez2000bayesian}
+and provided with
+the CFHTLenS photometric redshift catalogue~\citep{Hildebrandt2012}.
+Although the morphological separation method outperformed BMC
+at bright magnitudes in Figure.~\ref{fig:purity_mag},
+it is clear that BMC outperforms
+both morphological separation and TPC over all redshift range.}
+
+\textcolor{blue}{In Figure.~\ref{fig:purity_g-r},
+we present how the star and galaxy purity values vary
+as a function of $g-r$ color.
+It is again clear that BMC outperforms
+both morphological separation and TPC over all $g-r$ color range.  }
 
 
-\begin{figure*}
-  \begin{minipage}[t]{0.49\linewidth}
-    \includegraphics[width=\textwidth]{figures/purity_mag_cut.eps}
-    \caption{Purity of morphological separation,
-             TPC, and BMC techniques in 
-             as a function of the $i$-band magnitude.
-             The top panel shows the histogram of objects in the test data set.
-             The second panel shows the fraction of stars
-             as a function of magnitude. The error bars are Poisson.
-             The bottom two panels compares
-             the galaxy and star purity for morphological separation, TPC,
-             and BMC techniques as a function of magnitude.
-             The error bars for completeness and purity are not shown for
-             clarity, but they are approximately 10 percent.}
-    \label{fig:purity_mag_cut}
-  \end{minipage}
-  \hfill
-  \begin{minipage}[t]{0.49\linewidth}
-    \includegraphics[width=\textwidth]{figures/purity_z.eps}
-    \caption{The same figures as Figure~\ref{fig:purity_mag},
-             but as a function of photometric redshift estimate
-             (photo-$z$).}
-    \label{fig:purity_z}
-  \end{minipage}
-\end{figure*}
-
-\begin{figure}
-%%  \begin{minipage}[t]{0.49\linewidth}
-    \includegraphics[width=\textwidth]{figures/purity_mag.eps}
-    \caption{Purity of morphological separation,
-             TPC, and BMC techniques in 
-             Table~\ref{table:metrics_vvds}
-             as a function of the $i$-band magnitude.
-             The top panel shows the histogram of objects in the test data set.
-             The second panel shows the fraction of stars
-             as a function of magnitude. The error bars are Poisson.
-             The bottom two panels compares
-             the galaxy and star purity for morphological separation, TPC,
-             and BMC techniques as a function of magnitude.
-             The error bars for completeness and purity are not shown for
-             clarity, but they are approximately 10 percent.
-             }.
-    \label{fig:purity_mag}
-\end{figure}
-
-\subsection{The Quality of Training Data}
-  \label{section:quality_training}
-
+\subsection{Heterogeneous Training}
+  \label{section:poor_training}
+ 
 It is very costly in terms of telescope time to
 obtain a large sample spectroscopic observations
 down to the limiting magnitude of a photometric sample.
 Thus, we investigate the impact of training set quality
-by imposing various magnitude and $z$ cuts
-to decrease the size of the training set.
-
-In Figure.~\ref{fig:perform_mag_cut}, we present
-a visual comparison between different classification techniques
-when various magnitude cuts are applied.
-
-In Figure.~\ref{fig:perform_z_cut}, we also present
-the result of imposing various $z$ cuts.
-
-\begin{figure*}
-  \begin{minipage}[t]{0.49\linewidth}
-    \includegraphics[width=\textwidth]{figures/perform_mag_cut.eps}
-    \caption{The classification performance metrics for TPC, HB, morphology,
-      and BMC as applied to the CFHTLenS data in the VVDS field
-      with various magnitude cuts.
-      The top panel shows the number of sources in the training set
-      at corresponding magnitude cuts.
-      We show only one of the four combination methods, BMC,
-      which has the best overall performance.}
-    \label{fig:perform_mag_cut}
-  \end{minipage}
-  \hfill
-  \begin{minipage}[t]{0.49\linewidth}
-    \includegraphics[width=\textwidth]{figures/perform_z_cut.eps}
-    \caption{Same as Figure.~\ref{fig:perform_mag_cut} using
-      $z_{\text{spec}}$ cuts.}
-    \label{fig:perform_z_cut}
-  \end{minipage}
-\end{figure*}
-
-
-\subsection{Insufficient Training Data}
-  \label{section:poor_training}
-  
-We also investigate the impact of training set quality
 by analyzing in detail a more realistic case
 where the training data is available
 only for a small number of objects at bright magnitudes.
@@ -1196,40 +1217,29 @@ we only use objects that have spectroscopic labels
 from the VVDS 0226-04 field (which is located within the CFHTLS W1 field)
 and impose a magnitude cut of $i < 22.0$ in the training data,
 leaving us a training set with 1,365 objects.
+We apply the same four star-galaxy classification techniques
+and four different combination methods,
+and test them on the same test data.
+Since the demographics of sources in the test data set
+does not show the same distribution as the training data set,
+this also serves as a test of the efficacy of heterogenous training data. 
 
 \begin{table*}
   \caption{A summary of the classification performance metrics
            for the four individual methods
            and the four different classification combination methods
-           as applied to the CFHTLenS data in the VVDS field
+           as applied to the CFHTLenS data in the VVDS W1 field
            with a magnitude cut of $i < 22.0$.
            The definition of the metrics is summarized in
            Table~\ref{table:metrics}.
            The bold entries highlight the best performance values
            within each column.}
   \centering
-  \begin{tabular}{l c c c c c c}
-    Classifier & AUC & MSE &
-    $p_{g}\left(c_g=0.9964\right)$ & $p_{s}\left(c_s=0.7145\right)$ &
-    $p_{g}\left(c_g=0.9600\right)$ & $p_{s}\left(c_s=0.2500\right)$\\
-    \hline
-    TPC  & 0.9601 & 0.0728 & 0.9438 & 0.9329 & 0.9819 & 0.9950\\
-    SOMc & 0.9008 & 0.1679 & 0.8843 & 0.5044 & 0.9244 & 0.7726\\
-    HB   & 0.8960 & 0.0894 & 0.9074 & 0.7516 & 0.9615 & 0.7793\\
-    Morphology   & -      & \textbf{0.0397} & 0.9597 & 0.9666 & - & -\\
-    WA   & 0.9639 & 0.0581 & 0.9613 & 0.9787 & 0.9756 & 1.0000\\
-    BoM  & 0.9601 & 0.0728 & 0.9438 & 0.9329 & 0.9819 & 0.9950\\
-    Stacking  & 0.9644 & 0.0613 & 0.9633 & 0.9835 & 0.9840 & 1.0000\\
-    BMC  & \textbf{0.9738} & 0.0437 & \textbf{0.9676} & \textbf{0.9942} &
-    \textbf{0.9878} & 1.0000\\
-  \end{tabular}
-  \label{table:metrics_vvds}
+  \input{tables/metrics_cut.tex}
+  \label{table:metrics_cut}
 \end{table*}
 
-We apply the same four star-galaxy classification techniques
-and four different combination methods,
-and test them on the same test data.
-We present in Table~\ref{table:metrics_vvds}
+We present in Table~\ref{table:metrics_cut}
 the same six metrics for each method,
 and highlight the best method for each metric.
 Overall, the results obtained for the reduced data set are remarkable.
@@ -1264,42 +1274,54 @@ since these metrics are averaged over the full test data.
 
 
 %% ROC curve for vvds i < 20
-\begin{figure}
-  \centering
-  \includegraphics[width=\linewidth]{figures/roc_cut.eps}
-  \caption{A magnified view of the ROC curve of
-           four star-galaxy individual classification approaches
-           (TPC, SOMc, HB, and morphology)
-           and the best-performing combination technique (BMC).
-           trained with the reduced data set.
-           We show only one of the four combination methods, BMC,
-           which has the best overall performance.}
-  \label{fig:roc_cut}
-\end{figure}
+%\begin{figure}
+%  \centering
+%  \includegraphics[width=\linewidth]{figures/roc_cut.eps}
+%  \caption{A magnified view of the ROC curve of
+%           four star-galaxy individual classification approaches
+%           (TPC, SOMc, HB, and morphology)
+%           and the best-performing combination technique (BMC).
+%           trained with the reduced data set.
+%           We show only one of the four combination methods, BMC,
+%           which has the best overall performance.}
+%  \label{fig:roc_cut}
+%\end{figure}
 
-In Figure~\ref{fig:roc_cut}, we plot the ROC curve
-of all four individual classification algorithm
-and our BMC technique for the poor training data case.
-We note that a binary classifier,
-such as our cut-based morphological separation,
-whose output is either zero or one,
-is a single point in the ROC space.
-We vary the half-light radius to create a smooth ROC curve
-for morphological separation.
-It is clear that our BMC technique dominates
-each individual classification techniques in the ROC space.
+%In Figure~\ref{fig:roc_cut}, we plot the ROC curve
+%of all four individual classification algorithm
+%and our BMC technique for the poor training data case.
+%We note that a binary classifier,
+%such as our cut-based morphological separation,
+%whose output is either zero or one,
+%is a single point in the ROC space.
+%We vary the half-light radius to create a smooth ROC curve
+%for morphological separation.
+%It is clear that our BMC technique dominates
+%each individual classification techniques in the ROC space.
 
 %% weights map for vvds i < 20
-\begin{figure}
-  \centering
-  \includegraphics[width=\linewidth]{figures/weights_cut.eps}
-  \caption{A two-dimensional 10$\times$10 SOM representation
-           showing the relative weights for the BMC combination technique
-           applied to the four individual methods
-           trained with the CFHTLenS data in the VVDS field
-           with $i < 22$.}
-  \label{fig:weights_cut}
-\end{figure}
+
+
+\begin{figure*}
+  \begin{minipage}[t]{0.49\linewidth}
+    \includegraphics[width=\textwidth]{figures/som_colors_cut.eps}
+    \caption{The same figure as Figure~\ref{fig:som_colors_cut}
+        but for the BMC technique applied to the four individual methods
+        trained with the CFHTLenS data in the VVDS W1 field
+        with $i < 22$.}
+    \label{fig:som_colors_cut}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[t]{0.49\linewidth}
+    \includegraphics[width=\textwidth]{figures/weights_cut.eps}
+    \caption{The same figure as FIgure~\ref{fig:weights_cut}
+        but for the BMC technique applied to the four invidiual methods
+        trained with the CFHTLenS data in the VVDS W1 field
+        with $i < 22$.}
+    \label{fig:weights_cut}
+  \end{minipage}
+\end{figure*}
+
 
 In Figure~\ref{fig:weights_cut}, we again show the $10\times10$
 two-dimensional weight map defined by the SOM.
@@ -1323,32 +1345,32 @@ performs best at bright magnitudes,
 and BMC uses almost no morphological information at faint magnitudes.
 
 
-\begin{figure*}
-  \begin{minipage}[t]{0.49\linewidth}
-    \includegraphics[width=\textwidth]{figures/purity_mag_cut.eps}
-    \caption{Purity of morphological separation,
-             TPC, and BMC techniques in 
-             Table~\ref{table:metrics_vvds}
-             as a function of the $i$-band magnitude.
-             The top panel shows the fraction of stars
-             as a function of magnitude.
-             the galaxy and star purity for TPC and BMC techniques.
-             The bottom two panels show
-             the galaxy and star purity for morphological separation
-             and BMC technique.
-             We use the same threshold values from 
-             Figure~\ref{fig:purity_mag} in the bottom four panels}.
-    \label{fig:purity_mag_cut}
-  \end{minipage}
-  \hfill
-  \begin{minipage}[t]{0.49\linewidth}
-    \includegraphics[width=\textwidth]{figures/purity_z.eps}
-    \caption{The same figures as Figure~\ref{fig:purity_mag},
-             but as a function of photometric redshift estimate
-             (photo-$z$).}
-    \label{fig:purity_z}
-  \end{minipage}
-\end{figure*}
+%\begin{figure*}
+%  \begin{minipage}[t]{0.49\linewidth}
+%    \includegraphics[width=\textwidth]{figures/purity_mag_cut.eps}
+%    \caption{Purity of morphological separation,
+%             TPC, and BMC techniques in 
+%             Table~\ref{table:metrics_vvds}
+%             as a function of the $i$-band magnitude.
+%             The top panel shows the fraction of stars
+%             as a function of magnitude.
+%             the galaxy and star purity for TPC and BMC techniques.
+%             The bottom two panels show
+%             the galaxy and star purity for morphological separation
+%             and BMC technique.
+%             We use the same threshold values from 
+%             Figure~\ref{fig:purity_mag} in the bottom four panels}.
+%    \label{fig:purity_mag_cut}
+%  \end{minipage}
+%  \hfill
+%  \begin{minipage}[t]{0.49\linewidth}
+%    \includegraphics[width=\textwidth]{figures/purity_z.eps}
+%    \caption{The same figures as Figure~\ref{fig:purity_mag},
+%             but as a function of photometric redshift estimate
+%             (photo-$z$).}
+%    \label{fig:purity_z}
+%  \end{minipage}
+%\end{figure*}
 
 We present the star and galaxy purity values
 of Table~\ref{table:metrics_vvds} as a function of
@@ -1446,12 +1468,48 @@ or by developing a classification technique specifically designed
 for these regions of the color space and
 combining it with other techniques in a Bayesian framework.
 
+\subsection{The Quality of Training Data}
+  \label{section:quality_training}
+
+It is very costly in terms of telescope time to
+obtain a large sample spectroscopic observations
+down to the limiting magnitude of a photometric sample.
+Thus, we investigate the impact of training set quality
+by imposing various magnitude and $z$ cuts
+to decrease the size of the training set.
+
+In Figure.~\ref{fig:perform_mag_cut}, we present
+a visual comparison between different classification techniques
+when various magnitude cuts are applied.
+
+In Figure.~\ref{fig:perform_z_cut}, we also present
+the result of imposing various $z$ cuts.
+
+\begin{figure*}
+  \begin{minipage}[t]{0.49\linewidth}
+    \includegraphics[width=\textwidth]{figures/perform_mag_cut.eps}
+    \caption{The classification performance metrics for TPC, HB, morphology,
+      and BMC as applied to the CFHTLenS data in the VVDS field
+      with various magnitude cuts.
+      The top panel shows the number of sources in the training set
+      at corresponding magnitude cuts.
+      We show only one of the four combination methods, BMC,
+      which has the best overall performance.}
+    \label{fig:perform_mag_cut}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[t]{0.49\linewidth}
+    \includegraphics[width=\textwidth]{figures/perform_z_cut.eps}
+    \caption{Same as Figure.~\ref{fig:perform_mag_cut} using
+      $z_{\text{spec}}$ cuts.}
+    \label{fig:perform_z_cut}
+  \end{minipage}
+\end{figure*}
 \section{Conclusions}
   \label{section:conclusions}
 
-\textcolor{blue}{begin new text}
-
-We have presented and analyzed a novel star-galaxy classification framework
+\textcolor{blue}{We
+have presented and analyzed a novel star-galaxy classification framework
 for combining classifications from the CFHTLenS project.
 In particular, we use four independent star-galaxy classification techniques:
 a morphological separation method;
@@ -1467,9 +1525,7 @@ a software package named
 Our implementaion of \texttt{HB} and \texttt{BMC},
 as well as IPython notebooks that were used to
 produce the results in this paper,
-are available at \url{https://github.com/EdwardJKim/astroclass}.
-
-\textcolor{blue}{end new text}
+are available at \url{https://github.com/EdwardJKim/astroclass}.  }
 
 When there's wealth of training data,
 TPC is so good that combination techniques show
