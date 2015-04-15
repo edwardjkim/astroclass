@@ -1105,37 +1105,12 @@ especially at intermediate magnitudes $20\gtrsim i \lesssim22$.
 }
 
 
-%\begin{figure*}
-%  \begin{minipage}[t]{0.49\linewidth}
-%    \includegraphics[width=\textwidth]{figures/purity_mag.eps}
-%    \caption{Purity of morphological separation,
-%             TPC, and BMC techniques in 
-%             as a function of the $i$-band magnitude.
-%             The top panel shows the histogram of objects in the test data set.
-%             The second panel shows the fraction of stars
-%             as a function of magnitude. The error bars are Poisson.
-%             The bottom two panels compare
-%             the galaxy and star purity for morphological separation, TPC,
-%             and BMC techniques as a function of magnitude.
-%             The error bars for completeness and purity are not shown for
-%             clarity, but they are approximately 10 percent.}
-%    \label{fig:purity_mag}
-%  \end{minipage}
-%  \hfill
-%  \begin{minipage}[t]{0.49\linewidth}
-%    \includegraphics[width=\textwidth]{figures/purity_z.eps}
-%    \caption{The same figures as Figure~\ref{fig:purity_mag},
-%             but as a function of photometric redshift estimate
-%             (photo-$z$).}
-%    \label{fig:purity_z}
-%  \end{minipage}
-%\end{figure*}
 
 \begin{figure}
   \centering
   \includegraphics[width=\linewidth]{figures/purity_mag.eps}
   \caption{Purity of morphological separation,
-           TPC, and BMC techniques in 
+           TPC, and BMC techniques
            as a function of the $i$-band magnitude.
            The top panel shows the histogram of objects in the test data set.
            The second panel shows the fraction of stars
@@ -1305,7 +1280,7 @@ since these metrics are averaged over the full test data.
 \begin{figure*}
   \begin{minipage}[t]{0.49\linewidth}
     \includegraphics[width=\textwidth]{figures/som_colors_cut.eps}
-    \caption{The same figure as Figure~\ref{fig:som_colors_cut}
+    \caption{The same figure as Figure~\ref{fig:som_colors}
         but for the BMC technique applied to the four individual methods
         trained with the CFHTLenS data in the VVDS W1 field
         with $i < 22$.}
@@ -1314,7 +1289,7 @@ since these metrics are averaged over the full test data.
   \hfill
   \begin{minipage}[t]{0.49\linewidth}
     \includegraphics[width=\textwidth]{figures/weights_cut.eps}
-    \caption{The same figure as FIgure~\ref{fig:weights_cut}
+    \caption{The same figure as Figure~\ref{fig:weights}
         but for the BMC technique applied to the four invidiual methods
         trained with the CFHTLenS data in the VVDS W1 field
         with $i < 22$.}
@@ -1325,56 +1300,67 @@ since these metrics are averaged over the full test data.
 
 In Figure~\ref{fig:weights_cut}, we again show the $10\times10$
 two-dimensional weight map defined by the SOM.
-It seems that \texttt{TPC} performs well
-in most of the parameter space.
-When the quality of training data is relatively poor,
+%It seems that \texttt{TPC} performs well
+%in most of the parameter space.
+\textcolor{blue}{When the quality of training data is relatively poor,
 the performance of data driven algorithms will decrease,
-while the performance of template fitting algorithms such as \text{HB}
+while the performance of template fitting algorithms such as \texttt{HB}
 is independent of training data.
-Thus, it is perhaps not surprising that
-BMC algorithm now uses information from \texttt{HB},
-whereas it assigned almost no weight to \texttt{HB}
-when we had a high-quality training data.
-Another interesting pattern is that
-\texttt{SOMc} and morphological separation seem complementary;
-\texttt{SOMc} is weighted most strongly at fainter magnitudes,
-while the morphological separation method
-is weighted most strongly at brighter magnitudes.
+Thus, comparing the weight maps of Figure~\ref{fig:weights}
+and Figure~\ref{fig:weights_cut},
+it is perhaps not surprising that
+BMC algorithm now uses more information from
+morphological separation and \texttt{HB},
+while it uses considerably less information from TPC.
+%Another interesting pattern is that
+%\texttt{SOMc} and morphological separation seem complementary;
+%\texttt{SOMc} is weighted most strongly at fainter magnitudes,
+%while the morphological separation method
+%is weighted most strongly at brighter magnitudes.
 It is not surprising that the morphological separation method
 performs best at bright magnitudes,
-and BMC uses almost no morphological information at faint magnitudes.
+and BMC assigns more weight to \texttt{HB} at fainter magnitudes.}
 
 
-%\begin{figure*}
-%  \begin{minipage}[t]{0.49\linewidth}
-%    \includegraphics[width=\textwidth]{figures/purity_mag_cut.eps}
-%    \caption{Purity of morphological separation,
-%             TPC, and BMC techniques in 
-%             Table~\ref{table:metrics_vvds}
-%             as a function of the $i$-band magnitude.
-%             The top panel shows the fraction of stars
-%             as a function of magnitude.
-%             the galaxy and star purity for TPC and BMC techniques.
-%             The bottom two panels show
-%             the galaxy and star purity for morphological separation
-%             and BMC technique.
-%             We use the same threshold values from 
-%             Figure~\ref{fig:purity_mag} in the bottom four panels}.
-%    \label{fig:purity_mag_cut}
-%  \end{minipage}
-%  \hfill
-%  \begin{minipage}[t]{0.49\linewidth}
-%    \includegraphics[width=\textwidth]{figures/purity_z.eps}
-%    \caption{The same figures as Figure~\ref{fig:purity_mag},
-%             but as a function of photometric redshift estimate
-%             (photo-$z$).}
-%    \label{fig:purity_z}
-%  \end{minipage}
-%\end{figure*}
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figures/purity_mag_cut.eps}
+  \caption{Purity as a function of the $i$-band magnitude
+           for morphological separation, TPC, and BMC techniques
+           in the VVDS W1 field with $i < 22$.
+           We repat in the top panel shows the histogram of objects
+           in the test data set.
+           The second panel shows the fraction of stars
+           in the VVDS W1 and W4 fields.
+           The error bars are Poisson.
+           The bottom two panels compare
+           the galaxy and star purity for morphological separation, TPC,
+           and BMC techniques as a function of magnitude.
+           The error bars for completeness and purity are not shown for
+           clarity, but they are approximately 10 percent.}
+  \label{fig:purity_mag_cut}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figures/purity_z_cut.eps}
+  \caption{The same figures as Figure~\ref{fig:purity_mag_cut},
+           but as a function of photo-$z$.}
+  \label{fig:purity_z_cut}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figures/purity_g-r_cut.eps}
+  \caption{The same figure as Figure~\ref{purity_mag_cut},
+           but as a function of $g-r$ color.}
+  \label{fig:purity_g-r_cut}
+\end{figure}
+
 
 We present the star and galaxy purity values
 of Table~\ref{table:metrics_vvds} as a function of
-$i$-band magnitude in Figure~\ref{fig:purity_mag}.
+$i$-band magnitude in Figure~\ref{fig:purity_mag_cut}.
 It is clear that BMC outperforms both
 morphological separation and TPC classification techniques
 over all magnitudes.
