@@ -10,7 +10,7 @@
 \usepackage[normalem]{ulem}
 \usepackage{natbib}
 \usepackage{url}
-\usepackage{float}
+\usepackage{placeins}
 
 \def\aap{{ A\&A}}
 \def\AaA{{ A\&A}}
@@ -75,8 +75,9 @@ easily be replaced by a similar method
 or be extended to include other existing techniques.
 Testing with CFHTLenS data,
 we demonstrate that our combination technique improves
-the overall performance over any individual classification method.
-}
+the overall performance over any individual classification method.}
+
+\textcolor{red}{more abstract.}
 
 \end{abstract}
 
@@ -1046,25 +1047,25 @@ Although \texttt{TPC} shows the best performance as measured by the AUC,
 BMC shows the best performance in all other metrics.
 }
 
-\begin{figure*}
-  \begin{minipage}[t]{0.49\linewidth}
-    \includegraphics[width=\textwidth]{figures/som_colors.eps}
-    \caption{A two-dimensional 10$\times$10 SOM representation
-             showing the mean $i$-band magnitude (top left),
-             the fraction of true stars in each cell (top right),
-             and the mean values of $u-g$ and $g-r$
-             for the cross validation data.}
-    \label{fig:som_colors}
-  \end{minipage}
-  \hfill
-  \begin{minipage}[t]{0.49\linewidth}
-    \includegraphics[width=\textwidth]{figures/weights.eps}
-    \caption{A two-dimensional 10$\times$10 SOM representation
-             showing the relative weights for the BMC combination technique
-             applied to the four individual methods for the CFHTLenS data.}
-    \label{fig:weights}
-  \end{minipage}
-\end{figure*}
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figures/som_colors.eps}
+  \caption{A two-dimensional 10$\times$10 SOM representation
+           showing the mean $i$-band magnitude (top left),
+           the fraction of true stars in each cell (top right),
+           and the mean values of $u-g$ and $g-r$
+           for the cross validation data.}
+  \label{fig:som_colors}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figures/weights.eps}
+  \caption{A two-dimensional 10$\times$10 SOM representation
+           showing the relative weights for the BMC combination technique
+           applied to the four individual methods for the CFHTLenS data.}
+  \label{fig:weights}
+\end{figure}
 
 In Figure~\ref{fig:som_colors}, we show
 the mean CFHTLenS $i$-band magnitude in the top left panel
@@ -1102,61 +1103,73 @@ when there exists ample training data,
 BMC still utilizes information from \texttt{HB}
 to produce an overall improvement in performance,
 especially at intermediate magnitudes $20\gtrsim i \lesssim22$.
-}
-
-
-
-\begin{figure}
-  \centering
-  \includegraphics[width=\linewidth]{figures/purity_mag.eps}
-  \caption{Purity of morphological separation,
-           TPC, and BMC techniques
-           as a function of the $i$-band magnitude.
-           The top panel shows the histogram of objects in the test data set.
-           The second panel shows the fraction of stars
-           as a function of magnitude. The error bars are Poisson.
-           The bottom two panels compare
-           the galaxy and star purity for morphological separation, TPC,
-           and BMC techniques as a function of magnitude.
-           The error bars for completeness and purity are not shown for
-           clarity, but they are approximately 10 percent.}
-  \label{fig:purity_mag}
-\end{figure}
-
-\begin{figure}
-  \centering
-  \includegraphics[width=\linewidth]{figures/purity_z.eps}
-  \caption{The same figures as Figure~\ref{fig:purity_mag},
-           but as a function of photometric redshift estimate
-           (photo-$z$).}
-  \label{fig:purity_z}
-\end{figure}
-
-\begin{figure}
-  \centering
-  \includegraphics[width=\linewidth]{figures/purity_g-r.eps}
-  \caption{The same figure as Figure~\ref{purity_mag},
-           but as a function of $g-r$ color.}
-  \label{fig:purity_g-r}
-\end{figure}
+Another interesting pattern is that
+the four techniques seem complementary,
+and they are weighted most strongly in different regions
+of the SOM representations.}
 
 \textcolor{blue}{In Figure~\ref{fig:purity_mag}, 
 we compare the star and galaxy purity values
 for morphological separation, TPC, and BMC techniques
-as a function of $i$-band magnitude.
+as a function of $i$-band magnitude for the differential counts.
+We use the kernel density estimation \cite[KDE;][]{silverman1986density}.
 Although morphological separation shows a slightly better performance
 at bright magnitudes $i < 21$,
 BMC outperforms both morphological separation and TPC
 at faint magnitudes $i > 21$.
-As shown in Figure.~\ref{fig:purity_mag},
-the histogram of distribution of objects peaks at $i \sim 22$,
+As the top panel shows,
+the number count distribution peaks at $i \sim 22$,
 and BMC therefore outperforms the morphological separation technique
 for the majority of objects.
 It is also clear that BMC outperforms TPC over all magnitudes.
 BMC can presumably accomplish this by combining information from
 all base classifiers,
 \eg giving more weight to the morphological separation method
-at bright magnitudes.}
+at bright magnitudes.
+In Figure~\ref{fig:purity_mag_itnegrated}, we show
+the overall galaxy and star purity as a function of magnitude
+for the integrated counts.
+BMC is able to maintain a galaxy purity of 0.980
+up to $i \sim 24.5$, while the galaxy purity of
+the morphological separation method drops to 95.7\%
+beyond $i \lesssim 21$.}
+
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figures/purity_mag.pdf}
+  \caption{Purity as a function of the $i$-band magnitude
+           as estimated by the kernel density estimation (KDE) method
+           for the differential counts.
+           The top panel shows the histogram with a bin size of 0.1 mag
+           and the KDE for objects in the test set.
+           The second panel shows the fraction of stars estimated by KDE
+           as a function of magnitude.
+           The bottom two panels compare
+           the galaxy and star purity for BMC, TPC, and 
+           morphological separation as a function of magnitude.
+           Results for BMC, TPC, and morphological separation are in
+           red, green, and blue, respectively.
+           The $1 \sigma$ confidence bands are estaimted by
+           bootstrap resampling.}
+  \label{fig:purity_mag}
+\end{figure}
+
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figures/purity_mag_integrated.pdf}
+  \caption{Purity as a function of the $i$-band magnitude
+           for the integrated counts.
+           The bottom two panels compare
+           the galaxy and star purity for BMC, TPC, and 
+           morphological separation as a function of magnitude.
+           Results for BMC, TPC, and morphological separation are in
+           red, green, and blue, respectively.
+           The $1 \sigma$ error bars are Poisson.}
+  \label{fig:purity_mag_integrated}
+\end{figure}
+
 
 \textcolor{blue}{We also show the star and galaxy purity values
 of Table~\ref{table:metrics_all} as a function of
@@ -1165,16 +1178,60 @@ Photo-$z$ is estimated with
 the \texttt{BPZ} algorithm~\citep{benitez2000bayesian}
 and provided with
 the CFHTLenS photometric redshift catalogue~\citep{Hildebrandt2012}.
+The advantage of BMC over morphological separation and TPC is
+now more pronounced in Figure~\ref{fig:purity_z}.
 Although the morphological separation method outperformed BMC
 at bright magnitudes in Figure.~\ref{fig:purity_mag},
 it is clear that BMC outperforms
-both morphological separation and TPC over all redshift range.}
-
-\textcolor{blue}{In Figure.~\ref{fig:purity_g-r},
-we present how the star and galaxy purity values vary
+both morphological separation and TPC over all redshift range.
+We also present in Figure.~\ref{fig:purity_g-r}
+how the star and galaxy purity values vary
 as a function of $g-r$ color.
 It is again clear that BMC outperforms
 both morphological separation and TPC over all $g-r$ color range.  }
+
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figures/purity_z.pdf}
+  \caption{The same figures as Figure~\ref{fig:purity_mag},
+           but as a function of photometric redshift estimate
+           (photo-$z$).
+           The bin size of histogram in the top panel is 0.02.}
+  \label{fig:purity_z}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figures/purity_g-r.pdf}
+  \caption{The same figure as Figure~\ref{purity_mag},
+           but as a function of $g-r$ color.
+           The bin size of histogram in the top panel is 0.05.}
+  \label{fig:purity_g-r}
+\end{figure}
+
+
+\textcolor{blue}{We show the distribution of posterior star probabilities
+in Figures~\ref{fig:p_dist}.
+The histogram of spectroscopic galaxies is in red,
+and the histogram of true stars is in black.
+It is interesting that the BMC technique assigns
+a probability $P\left(S\right)$ greater than 0.75
+to significally fewer true galaxies than TPC,
+presumably because BMC utilizes information from
+different types of classification techniques.}
+
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{figures/p_dist.pdf}
+  \caption{Histogram of the posterior probability that
+           a source is a star for morphological separation (top),
+           TPC (middle), and BMC (bottom) techniques
+           for a high-quality training data.
+           The bin size is 0.05.}
+  \label{fig:p_dist_all}
+\end{figure}
+
 
 
 \subsection{Heterogeneous Training}
@@ -1184,10 +1241,10 @@ It is very costly in terms of telescope time to
 obtain a large sample spectroscopic observations
 down to the limiting magnitude of a photometric sample.
 Thus, we investigate the impact of training set quality
-by analyzing in detail a more realistic case
+by considering a more realistic case
 where the training data is available
-only for a small number of objects at bright magnitudes.
-To emulate this scenario,
+only for a small number of objects with bright magnitudes.
+\textcolor{blue}{ To emulate this scenario,
 we only use objects that have spectroscopic labels
 from the VVDS 0226-04 field (which is located within the CFHTLS W1 field)
 and impose a magnitude cut of $i < 22.0$ in the training data,
@@ -1196,8 +1253,8 @@ We apply the same four star-galaxy classification techniques
 and four different combination methods,
 and test them on the same test data.
 Since the demographics of sources in the test data set
-does not show the same distribution as the training data set,
-this also serves as a test of the efficacy of heterogenous training data. 
+are different from the distribution of the training data set,
+this also serves as a test of the efficacy of heterogenous training data.}
 
 \begin{table*}
   \caption{A summary of the classification performance metrics
@@ -1246,7 +1303,8 @@ and BMC's improvement in performance over TPC or mophological separation
 is impressive.
 Overall, the improvements are small but still significant
 since these metrics are averaged over the full test data.
-
+\textcolor{red}{Note: Numbers for WA, BOM, and Stacking seem a little bit off.
+Will investigate.}
 
 %% ROC curve for vvds i < 20
 %\begin{figure}
@@ -1277,25 +1335,23 @@ since these metrics are averaged over the full test data.
 %% weights map for vvds i < 20
 
 
-\begin{figure*}
-  \begin{minipage}[t]{0.49\linewidth}
-    \includegraphics[width=\textwidth]{figures/som_colors_cut.eps}
-    \caption{The same figure as Figure~\ref{fig:som_colors}
-        but for the BMC technique applied to the four individual methods
-        trained with the CFHTLenS data in the VVDS W1 field
-        with $i < 22$.}
-    \label{fig:som_colors_cut}
-  \end{minipage}
-  \hfill
-  \begin{minipage}[t]{0.49\linewidth}
-    \includegraphics[width=\textwidth]{figures/weights_cut.eps}
-    \caption{The same figure as Figure~\ref{fig:weights}
-        but for the BMC technique applied to the four invidiual methods
-        trained with the CFHTLenS data in the VVDS W1 field
-        with $i < 22$.}
-    \label{fig:weights_cut}
-  \end{minipage}
-\end{figure*}
+\begin{figure}
+  \includegraphics[width=\linewidth]{figures/som_colors_cut.eps}
+  \caption{The same figure as Figure~\ref{fig:som_colors}
+      but for the BMC technique applied to the four individual methods
+      trained with the CFHTLenS data in the VVDS W1 field
+      with $i < 22$.}
+  \label{fig:som_colors_cut}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{figures/weights_cut.eps}
+  \caption{The same figure as Figure~\ref{fig:weights}
+      but for the BMC technique applied to the four invidiual methods
+      trained with the CFHTLenS data in the VVDS W1 field
+      with $i < 22$.}
+  \label{fig:weights_cut}
+\end{figure}
 
 
 In Figure~\ref{fig:weights_cut}, we again show the $10\times10$
@@ -1306,44 +1362,95 @@ two-dimensional weight map defined by the SOM.
 the performance of data driven algorithms will decrease,
 while the performance of template fitting algorithms such as \texttt{HB}
 is independent of training data.
-Thus, comparing the weight maps of Figure~\ref{fig:weights}
-and Figure~\ref{fig:weights_cut},
-it is perhaps not surprising that
+Thus, when the weight maps of Figure~\ref{fig:weights}
+and Figure~\ref{fig:weights_cut} are compared,
+it is clear that
 BMC algorithm now uses more information from
 morphological separation and \texttt{HB},
-while it uses considerably less information from TPC.
-%Another interesting pattern is that
-%\texttt{SOMc} and morphological separation seem complementary;
-%\texttt{SOMc} is weighted most strongly at fainter magnitudes,
-%while the morphological separation method
-%is weighted most strongly at brighter magnitudes.
-It is not surprising that the morphological separation method
+while it uses considerably less information from the 
+data-driven methods, \texttt{TPC} and \texttt{SOMc}.
+Not surprisingly, the morphological separation method
 performs best at bright magnitudes,
 and BMC assigns more weight to \texttt{HB} at fainter magnitudes.}
 
+\textcolor{blue}{We present the star and galaxy purity values as a function of
+$i$-band magnitude for the differential counts
+in Figure~\ref{fig:purity_mag_cut}.
+Compred to Figure~\ref{fig:purity_mag},
+the purity of data-driven technique, TPC, suffers a significant
+decrease in purity.
+However, the purity of BMC does not show such a significant drop
+and decreases by only 2-5\%, and BMC still outperforms
+the morphological separation method at fainter magnitudes $i > 21$.
+while they are similar at bright magnitudes.
+As suggested by the weight maps in Figure~\ref{fig:weights_cut},
+BMC can accomplish this by shifting the weights assigned to
+each base classifier in different SOM cells,
+\ie assigning less weight to \texttt{TPC}
+and more weight to \texttt{HB} and morphological separation
+when the quality of training data is relatively poor.
+We can also see in the bottom two panels that
+the performance of morphological separation suffers
+at fainter magnitudes $i > 21$,
+while BMC shows consistently better performance over all magnitude ranges.}
 
 \begin{figure}
   \centering
-  \includegraphics[width=\linewidth]{figures/purity_mag_cut.eps}
+  \includegraphics[width=\linewidth]{figures/purity_mag_cut.pdf}
   \caption{Purity as a function of the $i$-band magnitude
            for morphological separation, TPC, and BMC techniques
            in the VVDS W1 field with $i < 22$.
-           We repat in the top panel shows the histogram of objects
+           Top panel shows the histogram and KDE for number distribution
            in the test data set.
            The second panel shows the fraction of stars
-           in the VVDS W1 and W4 fields.
-           The error bars are Poisson.
+           in the VVDS W1 and W4 fields in green and blue, respectively.
            The bottom two panels compare
            the galaxy and star purity for morphological separation, TPC,
-           and BMC techniques as a function of magnitude.
-           The error bars for completeness and purity are not shown for
-           clarity, but they are approximately 10 percent.}
+           and BMC techniques as a function of magnitude.}
   \label{fig:purity_mag_cut}
 \end{figure}
 
+
+\textcolor{blue}{In Figure~\ref{fig:purity_mag_cut_itnegrated}, we show
+the overall galaxy and star purity as a function of magnitude
+for the integrated counts.
+Even when \texttt{TPC} and \texttt{SOMc} are trained on heterogenous data,
+BMC is able to maintain a galaxy purity of 0.970
+up to $i \sim 24.5$, and it sill outperforms morphological separation
+at fainter magnitudes $i \gtrsim 21$.}
+
+
 \begin{figure}
   \centering
-  \includegraphics[width=\linewidth]{figures/purity_z_cut.eps}
+  \includegraphics[width=\linewidth]{figures/purity_mag_cut_integrated.pdf}
+  \caption{Purity as a function of the $i$-band magnitude
+           for the integrated counts.
+           The bottom two panels compare
+           the galaxy and star purity for BMC, TPC, and 
+           morphological separation as a function of magnitude.
+           Results for BMC, TPC, and morphological separation are in
+           red, green, and blue, respectively.
+           The error bars are Poisson.}
+  \label{fig:purity_mag_cut_integrated}
+\end{figure}
+
+
+We also show the star and galaxy purity values
+as a function of
+photometric redshift in Figure~\ref{fig:purity_z_cut},
+and as a function of $g-r$ in Figure~\ref{fig:purity_g_r_cut}.
+Compared to Figure~\ref{fig:purity_z} and \ref{fig:purity_g_r},
+where \texttt{TPC} and \texttt{SOMc} were trained
+on a high-quality training data,
+the performance of BMC is worse in some photo-$z$ and $g-r$ ranges.
+However, this drop in performance seems to be confined to
+only a small number of objects in particular parameter ranges,
+and BMC still outperforms both \texttt{TPC} and morphological separation
+for the majority of objects.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figures/purity_z_cut.pdf}
   \caption{The same figures as Figure~\ref{fig:purity_mag_cut},
            but as a function of photo-$z$.}
   \label{fig:purity_z_cut}
@@ -1351,129 +1458,103 @@ and BMC assigns more weight to \texttt{HB} at fainter magnitudes.}
 
 \begin{figure}
   \centering
-  \includegraphics[width=\linewidth]{figures/purity_g-r_cut.eps}
+  \includegraphics[width=\linewidth]{figures/purity_g_r_cut.pdf}
   \caption{The same figure as Figure~\ref{purity_mag_cut},
            but as a function of $g-r$ color.}
   \label{fig:purity_g-r_cut}
 \end{figure}
 
 
-We present the star and galaxy purity values
-of Table~\ref{table:metrics_vvds} as a function of
-$i$-band magnitude in Figure~\ref{fig:purity_mag_cut}.
-It is clear that BMC outperforms both
-morphological separation and TPC classification techniques
-over all magnitudes.
-The galaxy purity of BMC is significantly better
-than that of TPC at bright magnitudes, $i\lesssim21.5$,
-while they are similar at faint magnitudes.
-The star purity of BMC shows improvement over that of TPC
-at faint magnitudes,
-while they are similar at bright magnitudes.
-As suggested by the weight maps in Figure~\ref{fig:weights_cut},
-BMC can accomplish this by combining information from
-all base classifiers,
-\eg giving more weight to the morphological separation method
-at bright magnitudes.
-We can also see in the bottom two panels that
-the performance of morphological separation suffers
-at intermediate magnitudes $21\lesssim i \lesssim23$,
-while BMC shows consistently better performance
-over all magnitude ranges.
-
-
-We also show the star and galaxy purity values
-of Table~\ref{table:metrics_vvds} as a function of
-photometric redshift in Figure~\ref{fig:purity_z}.
-Photo-$z$ is estimated with
-the \texttt{BPZ} algorithm~\citep{benitez2000bayesian}
-and provided with
-the CFHTLenS photometric redshift catalogue~\citep{Hildebrandt2012}.
-It is again clear that BMC outperforms
-both individual classification techniques over all redshift range.
-
-\begin{figure*}
-  \begin{minipage}[t]{0.49\linewidth}
-    \includegraphics[width=\textwidth]{figures/p_dist_all.eps}
-    \caption{Histogram of the posterior probability that
-             a source is a star for morphological separation (top),
-             TPC (middle), and BMC (bottom) techniques
-             for the entire training data
-             (the CFHTLenS data in the DEEP2, SDSS, VIPERS, and VVDS
-             fields as discussed in Section~\ref{section:rich_training}).}
-    \label{fig:p_dist_all}
-  \end{minipage}
-  \hfill
-  \begin{minipage}[t]{0.49\linewidth}
-    \includegraphics[width=\textwidth]{figures/p_dist_cut.eps}
-    \caption{The same figures as Figure~\ref{fig:p_dist_all},
-             but for TPC and BMC trained with 
-             poor training data
-             (the CFHTLenS data in the VDDS field
-             with a magnitude cut of $i<22$).}
-    \label{fig:p_dist_cut}
-  \end{minipage}
-\end{figure*}
-
-We show the distribution of posterior star probabilities
-in Figures~\ref{fig:p_dist_all} and \ref{fig:p_dist_cut}.
-The histogram of spectroscopic galaxies is in blue,
-and the histogram of true stars is in red.
-It is interesting that the BMC technique assigns
-a probability $P\left(S\right)$ greater than 0.6
-to almost no true galaxies in Figure~\ref{fig:p_dist_all},
-presumably because BMC utilizes information from
-different types of classification techniques.
-This pattern is more pronounced in Figure~\ref{fig:p_dist_cut},
+The difference between the posterior probability distribution of
+TPC and that of BMC is now more pronounced in Figure~\ref{fig:p_dist_cut},
 where the $P\left(S\right)$ distribution of BMC for true galaxies
 falls off sharply at $P\left(S\right)\approx0.95$,
 while morphological separation and TPC techniques
 classify some true galaxies as stars with absolute certainty.
 
+\begin{figure}
+  \includegraphics[width=\linewidth]{figures/p_dist_cut.pdf}
+  \caption{The same figures as Figure~\ref{fig:p_dist_all},
+           but for TPC and BMC trained with 
+           poor training data
+           (the CFHTLenS data in the VDDS field
+           with a magnitude cut of $i<22$).}
+  \label{fig:p_dist_cut}
+\end{figure}
 
-\begin{figure*}
-  \centering
-  \includegraphics[width=\linewidth]{figures/color_color.eps}
-  \caption{Color-color diagrams of sources with
-           $0.45<P\left(S\right)<0.55$ when the BMC technique
-           is applied to the poor training data.}
-  \label{fig:color_color}
-\end{figure*}
 
-To identify the regions in color-color space
-where our BMC technique struggles to classify stars and galaxies,
-we present the distribution over the color-color space for sources with
-$0.45 < P(S) < 0.55$ in Figure~\ref{fig:color_color}.
-Not surprisingly, these regions correspond to
-where there is a significant overlap between stars and galaxies
-in the color space.
-It may be possible to improve the performance of
-star-galaxy classification by obtaining more information
-through spectroscopic follow-up, manual study, or citizen science projects,
-or by developing a classification technique specifically designed
-for these regions of the color space and
-combining it with other techniques in a Bayesian framework.
+%\begin{figure*}
+%  \centering
+%  \includegraphics[width=\linewidth]{figures/color_color.eps}
+%  \caption{Color-color diagrams of sources with
+%           $0.45<P\left(S\right)<0.55$ when the BMC technique
+%           is applied to the poor training data.}
+%  \label{fig:color_color}
+%\end{figure*}
+%
+%To identify the regions in color-color space
+%where our BMC technique struggles to classify stars and galaxies,
+%we present the distribution over the color-color space for sources with
+%$0.45 < P(S) < 0.55$ in Figure~\ref{fig:color_color}.
+%Not surprisingly, these regions correspond to
+%where there is a significant overlap between stars and galaxies
+%in the color space.
+%It may be possible to improve the performance of
+%star-galaxy classification by obtaining more information
+%through spectroscopic follow-up, manual study, or citizen science projects,
+%or by developing a classification technique specifically designed
+%for these regions of the color space and
+%combining it with other techniques in a Bayesian framework.
+
+
 
 \subsection{The Quality of Training Data}
   \label{section:quality_training}
 
-It is very costly in terms of telescope time to
-obtain a large sample spectroscopic observations
-down to the limiting magnitude of a photometric sample.
-Thus, we investigate the impact of training set quality
-by imposing various magnitude and $z$ cuts
-to decrease the size of the training set.
+\textcolor{blue}{The BMC technique we have demonstrated in this work uses
+two training based algorithms as base classifiers.
+Ideally, the training data should mirror the entire parameter space
+occupied the data to be classified.
+Yet we have seen that the BMC technique do reliably
+extraplotate past the limits of the training data,
+even when some base classifiers are trained on a hetorogenous data
+with a magnitude cut imposed.
+In this section, we further investigate
+if and where BMC begins to break down
+by imposing various magnitude, photo-$z$, and color cuts
+to decrease the size of the training set.}
 
-In Figure.~\ref{fig:perform_mag_cut}, we present
+\textcolor{blue}{In Figure.~\ref{fig:perform_mag_cut}, we present
 a visual comparison between different classification techniques
-when various magnitude cuts are applied.
+when various magnitude cuts are applied in the training data
+and the performance is measured on the same test set.
+The top panel shows that the size of training set
+decreases as we impose more restrictive magnitude cut.
+It is remarkable that BMC is able to reliably extrapolate
+past the training data and outperform \texttt{HB}, \texttt{TPC},
+and morphological separation in all performance metrics,
+even the demographics of training set does not accurately sample 
+the data to be classified and the size of training set is decreased.
+The performance is consistent until we impose a magnitude cut
+of $i < 20.5$ on the training data,
+beyond which point BMC finally performs worse than morphological separation.}
 
-In Figure.~\ref{fig:perform_z_cut}, we also present
-the result of imposing various $z$ cuts.
+\textcolor{blue}{Similarly, we also present impose various
+spectroscopic redshfit and color cuts in the training data
+in Figure~\ref{fig:perform_z_cut} and Figure~\ref{fig:perform_g_r_cut},
+resepctively.
+The area under the ROC curve measures the global performance,
+and BMC still outperforms \texttt{HB} and \texttt{TPC} globally in both cases,
+even when a very restrictive cuts are applied on the training set.
+Locally, BMC begins to perform worse than morphological separation
+when a conservative cut of $z_{\mathrm{spec}} < 0.6$ is imposed.
+A color cut seems to have more pronounced effect in the performance of BMC
+as shown in Figure~\ref{fig:perform_g_r_cut}.
+When the training data set is restricted to $g - r > 0.4$,
+BMC performs worse than morphological separation.}
 
-\begin{figure*}
-  \begin{minipage}[t]{0.49\linewidth}
-    \includegraphics[width=\textwidth]{figures/perform_mag_cut.eps}
+\begin{figure}
+    \includegraphics[width=\linewidth]{figures/perform_mag_cut.eps}
     \caption{The classification performance metrics for TPC, HB, morphology,
       and BMC as applied to the CFHTLenS data in the VVDS field
       with various magnitude cuts.
@@ -1482,15 +1563,23 @@ the result of imposing various $z$ cuts.
       We show only one of the four combination methods, BMC,
       which has the best overall performance.}
     \label{fig:perform_mag_cut}
-  \end{minipage}
-  \hfill
-  \begin{minipage}[t]{0.49\linewidth}
-    \includegraphics[width=\textwidth]{figures/perform_z_cut.eps}
+\end{figure}
+
+\begin{figure}
+    \includegraphics[width=\linewidth]{figures/perform_z_cut.eps}
     \caption{Same as Figure.~\ref{fig:perform_mag_cut} using
       $z_{\text{spec}}$ cuts.}
     \label{fig:perform_z_cut}
-  \end{minipage}
-\end{figure*}
+\end{figure}
+
+
+\begin{figure}
+    \includegraphics[width=\linewidth]{figures/perform_g_r.eps}
+    \caption{Same as Figure.~\ref{fig:perform_mag_cut} using
+      $g - r$ color cuts.}
+    \label{fig:perform_g_r_cut}
+\end{figure}
+
 \section{Conclusions}
   \label{section:conclusions}
 
