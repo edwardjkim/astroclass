@@ -3,44 +3,44 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: main.aux
 The style file: mn2e.bst
 Database file #1: sg_paper.bib
-You've used 49 entries,
-            2938 wiz_defined-function locations,
-            897 strings with 17608 characters,
-and the built_in function-call counts, 35808 in all, are:
-= -- 2406
-> -- 4474
-< -- 6
-+ -- 1398
-- -- 1364
-* -- 2942
-:= -- 6789
-add.period$ -- 2
-call.type$ -- 49
-change.case$ -- 642
-chr.to.int$ -- 48
-cite$ -- 49
-duplicate$ -- 853
-empty$ -- 1340
-format.name$ -- 1432
-if$ -- 6965
+You've used 53 entries,
+            2601 wiz_defined-function locations,
+            844 strings with 11484 characters,
+and the built_in function-call counts, 20483 in all, are:
+= -- 2098
+> -- 1141
+< -- 45
++ -- 390
+- -- 375
+* -- 1797
+:= -- 3733
+add.period$ -- 0
+call.type$ -- 53
+change.case$ -- 327
+chr.to.int$ -- 52
+cite$ -- 53
+duplicate$ -- 655
+empty$ -- 960
+format.name$ -- 452
+if$ -- 3836
 int.to.chr$ -- 2
-int.to.str$ -- 1
-missing$ -- 46
-newline$ -- 151
-num.names$ -- 198
-pop$ -- 601
+int.to.str$ -- 0
+missing$ -- 54
+newline$ -- 166
+num.names$ -- 212
+pop$ -- 216
 preamble$ -- 1
-purify$ -- 642
+purify$ -- 378
 quote$ -- 0
-skip$ -- 1109
+skip$ -- 787
 stack$ -- 0
-substring$ -- 1063
-swap$ -- 85
-text.length$ -- 6
-text.prefix$ -- 0
+substring$ -- 1224
+swap$ -- 120
+text.length$ -- 9
+text.prefix$ -- 125
 top$ -- 0
-type$ -- 435
+type$ -- 471
 warning$ -- 0
-while$ -- 218
+while$ -- 216
 width$ -- 0
-write$ -- 491
+write$ -- 535

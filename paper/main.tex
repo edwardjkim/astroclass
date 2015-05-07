@@ -11,9 +11,16 @@
 \usepackage{natbib}
 \usepackage{url}
 \usepackage{placeins}
+\usepackage{times}
 
-\def\aap{{ A\&A}}
-\def\AaA{{ A\&A}}
+% By default the URLs are put in typewriter type in the body and the
+% bibliography of the document when using the \url command.  If you are
+% using many long URLs you may want to uncommennt the next line so they
+% are typeset a little smaller.
+\renewcommand{\UrlFont}{\small\tt}
+
+\def\aap{{A\&A}}
+\def\AaA{{A\&A}}
 \def\AJ{{AJ}}
 \def\aj{{AJ}}
 \def\ApJ{{ApJ}}
@@ -37,11 +44,13 @@
 \newcommand{\eg}{{e.g., }}
 \newcommand{\ie}{{i.e., }}
 
-\title{A Hybrid Ensemble Learning Approach to Star-galaxy Classification}
+\pdfminorversion=5
 
-\author[E. J. Kim et al.]{
-  Edward J. Kim\thanks{jkim575@illinois.edu}$^1$, Robert J. Brunner$^2$,
-  and Matias Carrasco Kind$^3$\\
+\title{A Hybrid Ensemble Learning Approach to Star-Galaxy Classification}
+
+\author[E. J. Kim, R. J. Brunner \& M. Carrasco Kind]{
+  Edward J.~Kim$^1$\thanks{jkim575@illinois.edu}, Robert J.~Brunner$^2$,
+  and Matias Carrasco Kind$^{2,3}$\\
 $^1$Department of Physics, University of Illinois, Urbana, IL 61801 USA\\
 $^2$Department of Astronomy, University of Illinois, Urbana, IL 61801 USA\\
 $^3$National Center for Supercomputing Applications, Urbana, IL 61801 USA}
@@ -56,44 +65,54 @@ $^3$National Center for Supercomputing Applications, Urbana, IL 61801 USA}
 
 \label{firstpage}
 \begin{abstract}
-\textcolor{blue}{
-Star-galaxy separation in currently ongoing and future
-large photometric surveys, such as DES and LSST,
-will detect a vast number of unresolved galaxies at faint magnitudes.
+%Star-galaxy separation in currently ongoing and future
+%large photometric surveys, such as DES and LSST,
+%will detect a vast number of unresolved galaxies at faint magnitudes.
 There exist a variety of star-galaxy classification techniques,
-each with their own strenths and weaknesses.
-In this paper, we present a novel hybrid, ensemble classification
+each with their own strengths and weaknesses.
+In this paper, we present a novel meta-classification
 framework that combines and fully exploits different techniques
-to produce a more robust classification.
-To demonstrate this hybrid technique,
+to produce a more robust star-galaxy classification.
+To demonstrate this hybrid, ensemble approach,
 we combine a purely morphological classifier,
-a supervised machine learning technique based on random forest,
-an unsupervised method based on self-organizing maps,
-and a heirarchical Bayeisan template fitting algorithm.
-Any of these four methods could
-easily be replaced by a similar method
-or be extended to include other existing techniques.
-Testing with CFHTLenS data,
-we demonstrate that our combination technique improves
-the overall performance over any individual classification method.}
-
-\textcolor{red}{more abstract.}
+a supervised machine learning method based on random forest,
+an unsupervised machine learning method based on self-organizing maps,
+and a Hierarchical Bayesian template fitting method.
+%Any of these four methods could
+%easily be replaced by a similar method
+%or be extended to include other existing techniques.
+Using data from the CFHTLenS survey,
+we consider different scenarios:
+when a high-quality training set is available with spectroscopic labels from
+DEEP2, SDSS, VIPERS, and VVDS, and
+when the demographics of sources in a low-quality training set
+do not match the demographics of objects in the test data set.
+We demonstrate that our Bayesian combination technique improves
+the overall performance over any individual classification method
+in these scenarios.
+Thus, strategies that combine the predictions of different classifiers
+may prove to be optimal in currently ongoing and forthcoming
+photometric surveys,
+such as the Dark Energy Survey and the Large Synoptic Survey Telescope.
 
 \end{abstract}
 
 \begin{keywords}
-\textcolor{red}{keywords}
+methods: data analysis -- methods: statistical -- surveys -- stars: statistics
+-- galaxies:statistics.
 \end{keywords}
 
 
 \section{Introduction}
   \label{section:introduction}
 
-The problem of star-galaxy classification is fundamental to astronomy
-and goes as far back as \cite{messier1781catalogue}.
+The problem of source classification is fundamental to astronomy
+and goes as far back as \citet{messier1781catalogue}.
 A variety of different strategies have been developed 
 to tackle this long-standing problem,
-and yet it remains an unsolved challenge.
+%and yet it remains an unsolved challenge.
+and yet there is no consensus on
+the optimal star-galaxy classification strategy.
 The most commonly used method to classify stars and galaxies
 in large sky surveys is the morphological separation
 ~\citep{sebok1979optimal, kron1980photometry, valdes1982resolution,
@@ -131,18 +150,19 @@ supervised and unsupervised learning approaches.
 In supervised learning, 
 the input attributes (\eg magnitudes or colors)
 are provided along with the truth labels (\eg star or galaxy).
-\cite{odewahn1992automated} pioneered
+\citet{odewahn1992automated} pioneered
 the application of neural networks
 to the star-galaxy classification problem,
 and it has become a core part of
 the astronomical image processing software
 \textsc{SExtractor}~\citep{bertin1996sextractor}.
 Other successfully implemented examples include
-decision trees~\citep{weir1995automated, suchkov2005census, ball2006robust}
-and Support Vector Machines~\citep{Fadely2012}.
+decision trees~\citep{weir1995automated, suchkov2005census, ball2006robust,
+sevilla2015effect}
+and Support Vector Machines~\citep*{Fadely2012}.
 Unsupervised machine learning techniques
-are less common
-as they do not utilize the truth labels during the training process
+are less common,
+as they do not utilize the truth labels during the training process,
 and only the input attributes are used.
 
 Physically based template fitting methods
@@ -183,32 +203,33 @@ data set with which we test the algorithms.
 In Section~\ref{section:results_and_discussion},
 we compare the performance of our combination techniques
 to the performance of the individual classification techniques.
+Finally, we outline our conclusions in Section~\ref{section:conclusions}.
 
 \section{Classification Methods}
   \label{section:classification_methods}
 
 In this section, we present
 four distinct star-galaxy classification techniques.
-The first method is
-a supervised machine learning technique named \texttt{TPC}
+The first method is a morphological separation method,
+which uses a hard cut in the half-light radius vs.\ magnitude plane.
+The second method is
+a supervised machine learning technique named TPC
 (Trees for Probabilistic Classification),
 which uses prediction trees and a random forest~\citep{carrascokind2013tpz}.
-The second method is
-an unsupervised machine learning technique named \texttt{SOMc},
-which uses self-organizing maps (SOM) and a random atlas
-to provide a classification~citep{carrascokind2014somz}.
 The third method is
+an unsupervised machine learning technique named SOMc,
+which uses self-organizing maps (SOMs) and a random atlas
+to provide a classification~\citep{carrascokind2014somz}.
+The fourth method is
 a Hierarchical Bayesian template fitting technique
-based on the work by \cite{Fadely2012},
+based on the work by \citet{Fadely2012},
 which fits SED templates from star and galaxy libraries
 to an observed set of measured flux values.
-The fourth method is a morphological separation method,
-which uses a hard cut in the half-light radius vs.\ magnitude plane.
 
 Collectively, these four methods represent the majority of all
 standard star-galaxy classification approaches published in the literature.
 It is very likely that any new classification technique would be
-functionally similar to one of these four   methods.
+functionally similar to one of these four methods.
 Therefore, any of these four methods could in principle be replaced by a similar method. 
 
 
@@ -219,10 +240,10 @@ to star-galaxy classification is
 to make a hard cut in the space of photometric attributes.
 As a first-order morphological selection of point sources,
 we adopt a technique that is popular among the weak lensing 
-community~\citep{Kaiser1995}.
+community~\citep*{Kaiser1995}.
 As Figure~\ref{fig:morph} shows, there is a distinct locus
 produced by point sources in the half-light radius
-($r_h$; estimated by \textsc{SExtractor}'s \texttt{FLUX\_RADIUS} parameter)
+(estimated by \textsc{SExtractor}'s FLUX\_RADIUS parameter)
 vs.\ the $i$-band magnitude plane.
 A rectangular cut in this size-magnitude plane separates point sources,
 which are presumed to be stars,
@@ -234,8 +255,8 @@ manually inspecting the size-magnitude diagram.
 
 \begin{figure}
   \centering
-  \includegraphics[width=0.95\linewidth]{figures/morph.eps}
-  \caption{Half-light radius ($r_h$) vs.\ magnitude.}
+  \includegraphics[width=\columnwidth]{figures/morph.eps}
+  \caption{Half-light radius vs.\ magnitude.}
   \label{fig:morph}
 \end{figure}
 
@@ -246,41 +267,42 @@ It is difficult to justify such a decisive classification
 near a survey's magnitude limits,
 where measurement uncertainties generally increase.
 A more informative approach is to provide probabilistic classifications.
-Although a recent work by \cite{henrion2011bayesian}
+Although a recent work by \citet{henrion2011bayesian}
 implemented a probabilistic classification using a Bayesian approach
 on the morphological measurements alone,
 here we use a cut-based morphological separation
 to demonstrate the advantages of our combination techniques.
 In particular, we later show that
-the binary output (\ie 0 or 1) of cut-based methods
-can be transformed into a
-probability estimate by combining them
+the binary outputs (\ie 0 or 1) of cut-based methods
+can be transformed into
+probability estimates by combining them
 with the probability outputs from other
 probabilistic classification techniques,
-such as \texttt{TPC}, \texttt{SOMc}, and \texttt{HB}.
+such as TPC, SOMc, and HB.
 
 
 \subsection{Supervised Machine Learning: TPC}
 
-\texttt{TPC} is a parallel, supervised machine learning algorithm
+TPC is a parallel, supervised machine learning algorithm
 that uses prediction trees and random forest 
 techniques~\citep{breiman1984classification, breiman2001random}
-to produce star-galaxy classification.
-\texttt{TPC} is a part of a publicly available software package called
-\texttt{MLZ}\footnote{http://lcdm.astro.illinois.edu/code/mlz.html}
+to produce a star-galaxy classification.
+TPC is a part of a publicly available software package called
+\textsc{MLZ}\footnote{http://lcdm.astro.illinois.edu/code/mlz.html}
 (Machine Learning for Photo-$z$).
-The full software package includes, among other capabilities,
-\texttt{TPZ}, a supervised photo-$z$ technique
-\citep[regression mode;][]{carrascokind2013tpz},
-\texttt{TPC}, a supervised star-galaxy classification technique
-(classification mode),
-\texttt{SOM}$z$, an unsupervised photo-$z$ technique
-\citep[regression mode;][]{carrascokind2014somz},
+The full software package includes:
+\textsc{TPZ}, a supervised photometric redshift (photo-$z$)
+estimation technique
+\citep[regression mode;][]{carrascokind2013tpz};
+TPC, a supervised star-galaxy classification technique
+(classification mode);
+\textsc{SOM}$z$, an unsupervised photo-$z$ technique
+\citep[regression mode;][]{carrascokind2014somz};
 and
-\texttt{SOMc}, an unsupervised star-galaxy classification technique
+SOMc, an unsupervised star-galaxy classification technique
 (classification mode).
 
-\texttt{TPC} uses classification trees,
+TPC uses classification trees,
 a type of prediction trees that are designed to
 provide a classification or predict a discrete category.
 Prediction trees are built by asking a sequence of questions
@@ -292,34 +314,33 @@ The optimal split dimension is decided by
 choosing the attribute that maximizes
 the \textit{Information Gain} ($I_G$), which is defined as
 
-\begin{equation}
-  I_G \left(D_{\mathrm{node}}, X\right)
-  = I_d \left( D_{\mathrm{node}} \right)
-  - \sum_{x \in \mathrm{values}(X)}
-  \frac{|D_{\mathrm{node}, x}|}{|D_{\mathrm{node}}|}
-  I_d \left( D_{\mathrm{node}, x} \right),
-  \label{eq:information_gain}
+\begin{equation} \label{eq:information_gain}
+  I_G \left(D_{\rmn{node}}, X\right)
+  = I_d \left( D_{\rmn{node}} \right)
+  - \sum_{x \in \rmn{values}(X)}
+  \frac{|D_{\rmn{node}, x}|}{|D_{\rmn{node}}|}
+  I_d \left( D_{\rmn{node}, x} \right),
 \end{equation}
 
 \noindent
-where $D_{\mathrm{node}}$ is the training data in a given node,
+where $D_{\rmn{node}}$ is the training data in a given node,
 $X$ is one of the possible dimensions (\eg magnitudes or colors)
 along which the node is split, and
 $x$ are the possible values of a specific dimension $X$.
-$|D_{\mathrm{node}}|$ and $|D_{\mathrm{node}, x}|$ are the size of the total training data
+$|D_{\rmn{node}}|$ and $|D_{\rmn{node}, x}|$ are the size of the total training data
 and the number of objects in a given subset $x$ within the current node,
 respectively.
 $I_d$ is the impurity degree index,
-and \texttt{TPC} can calculate $I_d$
+and TPC can calculate $I_d$
 from any of the three standard different impurity indices:
 \textit{information entropy}, \textit{Gini impurity},
 and \textit{classification error}.
-Here, we use the information entropy,
+In this work, we use the information entropy,
 which is defined similarly to the thermodynamic entropy:
 
 \begin{equation}
   I_d \left( D \right)
-  = - f_g \log_{2} f_g - (1 - f_g) \log_{2} f_g,
+  = - f_g \log_{2} f_g - \left(1 - f_g\right) \log_{2} \left(1 - f_g\right),
 \end{equation}
 
 \noindent
@@ -333,17 +354,18 @@ In a technique called random forest,
 we create bootstrap samples
 (\ie $N$ randomly selected objects with replacement)
 from the input training data
-by sampling repeatedly from the magnitudes using the magnitude errors.
+by sampling repeatedly from the magnitudes and colors
+using their measurement errors.
 We use these bootstrap samples to construct
 multiple, uncorrelated prediction trees
 whose individual predictions are aggregated to produce
 a star-galaxy classification for each source.
 
-We also use a cross validation technique called
+We also use a cross-validation technique called
 Out-of-Bag~\citep[OOB;][]{breiman1984classification, carrascokind2013tpz}.
-When a tree (or a map) is built in \texttt{TPC} (or \texttt{SOMc}),
+When a tree (or a map) is built in TPC (or SOMc),
 a fraction of the training data, usually one-third,
-is left out and not used in training the trees or maps.
+is left out and not used in training the trees (or maps).
 After a tree is constructed using two-thirds of the training data,
 the final tree is applied to the remaining one-third
 to make a classification.
@@ -366,8 +388,7 @@ and when combining this approach with other techniques.
 
 \subsection{Unsupervised Machine Learning: SOMc}
 
-A Self-Organizing Map
-\citep[SOM;][]{kohonen1990self, kohonen2001self}
+A self-organizing map~\citep{kohonen1990self, kohonen2001self}
 is an unsupervised, artificial neural network algorithm
 that is capable of projecting high-dimensional input data
 onto a low-dimensional map
@@ -376,14 +397,15 @@ In astronomical applications,
 the high-dimensional input data can be
 magnitudes, colors, or some other photometric attributes.
 The output map is usually chosen to be two-dimensional
-for the visualization.
+so that the resulting map can be used for visualizing
+various properties of the input data.
 The differences between a SOM and other neural network algorithms are
 that a SOM is unsupervised,
 there are no hidden layers and therefore no extra parameters,
 and it produces a direct mapping
 between the training set and the output network.
 In fact, a SOM can be viewed as a non-linear generalization
-of a principal component analysis (PCA) algorithm.
+of a principal component analysis (PCA) algorithm~\citep{yin2008self}.
 
 The key characteristic of SOM is that
 it retains the topology of the input training set,
@@ -412,37 +434,37 @@ and the entire process is repeated for several iterations.
 Eventually, the SOM converges to its final form where
 the training data is separated into groups of similar features.
 
-In a similar approach to random forest in \texttt{TPZ} and \texttt{TPC},
-\texttt{SOM}$z$ uses a technique called \textit{random atlas}
+In a similar approach to random forest in TPZ and TPC,
+SOM$z$ uses a technique called \textit{random atlas}
 to provide photo-$z$ estimation \citep{carrascokind2014somz}.
 In random atlas, the prediction trees of random forest are replaced by maps,
 and each map is constructed from different bootstrap samples
 of the training data.
 Furthermore, we create random realizations of the training data
-by perturbing the input attributes by their measurement error.
+by perturbing the magnitudes and colors by their measurement errors.
 For each map, we can either use all available attributes,
 or randomly select a subsample of the attribute space.
 This SOM implementation can also be
 applied to the classification problem,
-and we refer to it as \texttt{SOMc}
+and we refer to it as SOMc
 in order to differentiate it from 
 the photo-$z$ estimation problem (regression mode).
 We also use the random atlas approach
 in some of the classification combination approaches as discussed in
 Section~\ref{section:classification_combination_methods}.
 
-One of the most important parameter in \texttt{SOMc}
+One of the most important parameter in SOMc
 is the topology of the two-dimensional SOM,
 which can be rectangular, hexagonal, or spherical.
 To classify stars and galaxies in the CFHTLenS data,
 we use a spherical topology,
 which is constructed by using
-\texttt{HEALPIX}~\citep{gorski2005healpix}.
-Furthermore, similar to \texttt{TPC},
+\textsc{HEALPIX}~\citep{gorski2005healpix}.
+Furthermore, similar to TPC,
 we use the OOB technique to make an unbiased estimation of errors.
 For a complete description of the SOM implementation
 and its application to the estimation of
-photo-$z$ probability distribution functions,
+photo-$z$ probability density functions (photo-$z$ PDFs),
 we refer the reader to \cite{carrascokind2014somz}.
 
 \subsection{Template fitting: Hierarchical Bayesian}
@@ -471,36 +493,35 @@ we refer the reader to \cite{Fadely2012}.
 
 We write the posterior probability that a source is a star as
 
-\begin{equation}
-P \left( S | \mathbf{x}, \mathbf{\theta} \right)
-= P \left( \mathbf{x} | S, \mathbf{\theta} \right)
-P \left( S | \mathbf{\theta} \right),
+\begin{equation} \label{eq:overall_posterior}
+P \left( S | \bmath{x}, \bmath{\theta} \right)
+= P \left( \bmath{x} | S, \bmath{\theta} \right)
+P \left( S | \bmath{\theta} \right),
 \end{equation}
 
 \noindent
-where $\mathbf{x}$ represents a given set of observed magnitudes,.
-We have also introduced the \textit{hyperparameter} $\mathbf{\theta}$,
+where $\bmath{x}$ represents a given set of observed magnitudes,.
+We have also introduced the \textit{hyperparameter} $\bmath{\theta}$,
 a nuisance parameter that characterizes our uncertainty
 in the prior distribution.
 To compute the likelihood that a source is a star,
-we marginalize over all star and galaxy templates $\mathbf{T}$.
+we marginalize over all star and galaxy templates $\bmath{T}$.
 In a template-fitting approach,
 we marginalize by summing up
-the likelihood that a source has the set of magnitudes $\mathbf{x}$
+the likelihood that a source has the set of magnitudes $\bmath{x}$
 for a given star template
 as well as the likelihood for a given galaxy template:
 
-\begin{equation}
-  P \left(\mathbf{x} | S, \mathbf{\theta} \right)
-  = \sum_{t \in \mathbf{T}}
-  P \left(\mathbf{x} | S, t, \mathbf{\theta} \right)
-  P \left(t | S, \mathbf{\theta} \right).
-  \label{eq:marginalize_template}
+\begin{equation} \label{eq:marginalize_template}
+  P \left(\bmath{x} | S, \bmath{\theta} \right)
+  = \sum_{t \in \bmath{T}}
+  P \left(\bmath{x} | S, t, \bmath{\theta} \right)
+  P \left(t | S, \bmath{\theta} \right).
 \end{equation}
 
 \noindent
 The likelihood of each template
-$P \left( \mathbf{x} | S, \mathbf{\theta} \right)$
+$P \left( \bmath{x} | S, \bmath{\theta} \right)$
 is itself marginalized over the uncertainty
 in the template-fitting coefficient.
 Furthermore, for galaxy templates, we introduce another step that 
@@ -509,18 +530,16 @@ by a factor of $1 + z$.
 
 Marginalization in Equation~\ref{eq:marginalize_template}
 requires that we specify the prior probability
-$P \left(t | S, \mathbf{\theta} \right)$
-that a source has spectral template $t$ (at a given redshift).
+$P \left(t | S, \bmath{\theta} \right)$
+that a source has a spectral template $t$ (at a given redshift).
 Thus, the probability that a source is a star (or a galaxy)
 is either the posterior probability itself
 if a prior is used,
-or the likelihood itself if an uniformative prior is used.
+or the likelihood itself if an uninformative prior is used.
 In a Bayesian analysis, it is preferable to use a prior,
 which can be directly computed either from physical assumptions,
-from an empirical function calibrated by
-using a spectroscopic training sample,
 or from an empirical function calibrated by
-using machine learning techniques.
+using a spectroscopic training sample.
 In an HB approach, the entire sample of sources is used to
 infer the prior probabilities for each individual source.
 
@@ -529,15 +548,18 @@ we parametrize the prior probability of each template
 as a discrete set of weights such that
 
 \begin{equation}
-\sum_{t \in \mathbf{T}}
-P \left(t | S, \mathbf{\theta} \right) = 1.
+\sum_{t \in \bmath{T}}
+P \left(t | S, \bmath{\theta} \right) = 1.
 \end{equation}
 
 \noindent
+Similarly, we also parametrize the overall prior probability,
+$\left(S | \bmath{\theta}\right)$ in Equation~\ref{eq:overall_posterior},
+as a weight.
 These weights correspond to the hyperparameters,
 which can be inferred by sampling
 the posterior probability distribution in the hyperparameter space.
-For the sampling, we use \texttt{emcee}, a Python implementation of the
+For the sampling, we use \textsc{emcee}, a Python implementation of the
 affine-invariant Markov Chain Monte Carlo (MCMC) ensemble sampler~\citep{Foreman-Mackey2013}.  
 
 As the goal of template fitting methods is to minimize
@@ -547,32 +569,29 @@ both the use of SED templates and
 the accuracy of the transmission functions
 for the filters used for particular survey.
 For our stellar templates,
-we use the empirical SED library from \cite{pickles1998stellar}.
+we use the empirical SED library from \citet{pickles1998stellar}.
 The Pickles library consists of 131 stellar templates,
 which span all normal spectral types
 and luminosity classes at solar abundance,
-as well as metal-poor and metal-rich F-K dwarf 
-and G-K giant and supergiant stars.
-\textcolor{blue}{
+as well as metal-poor and metal-rich F--K dwarf 
+and G--K giant and supergiant stars.
 We supplement the stellar library with
-100 SEDs from \cite{chabrier2000evolutionary},
+100 SEDs from \citet{chabrier2000evolutionary},
 which include low mass stars and brown dwarfs
-with different $T_{eff}$ and surface gravities.
+with different $T_{\rmn{eff}}$ and surface gravities.
 We also include four white dwarf templates of
-\cite{bohlin1995white}.
-}
+\citet*{bohlin1995white}, for a total of 235 templates
+in our final stellar library.  
 For our galaxy templates,
-we use the four CWW spectra from \cite{coleman1980colors},
+we use four CWW spectra from \cite*{coleman1980colors},
 which include an Elliptical, an Sba, an Sbb,
 and an Irregular galaxy template.
-When extending an analysis to higher redshift,
+When extending an analysis to higher redshifts,
 the CWW library is often augmented with
 two star bursting galaxy templates from \cite{kinney1996template}.
-\textcolor{blue}{
 From the six original CWW and Kinney spectra,
-intermediate templates are created by interpolation
-for a total of 51 SEDs.
-}
+intermediate templates are created by interpolation,
+for a total of 51 SEDs in our final galaxy library.
 
 All of the above templates are convolved
 with the filter response curves to generate model magnitudes.
@@ -588,10 +607,10 @@ Canada-France Hawaii Telescope (CFHT).
 Building on the work in the field of ensemble learning,
 we combine the predictions from
 individual star-galaxy classification techniques
-using ensemble learning techniques known as
-Bayesian Model Combination (BMC)
+using four combination techniques,
+including Bayesian Model Combination (BMC)
 and a variant of an ensemble learning technique known as stacking.
-The main idea behind ensemble learning is to weigh
+The main idea behind ensemble learning is to weight
 the predictions from individual models
 and combine them to obtain a prediction
 that outperforms every one of 
@@ -610,11 +629,11 @@ supervised techniques to outperform other techniques
 in areas of parameter space that are well-populated
 with training data.
 Similarly, we can expect unsupervised approaches
-such as \texttt{SOM} or template fitting approaches 
+such as SOM or template fitting approaches 
 to generally perform better when training data
 is either sparse or unavailable.
 
-We therefore adopt the binning strategy similar to 
+We therefore adopt a binning strategy similar to 
 \cite{carrascokind2014exhausting}.
 In this binning strategy,
 we allow different classifier combinations 
@@ -624,9 +643,9 @@ the full nine-dimensional magnitude-color space:
 $u$, $g$, $r$, $i$, $z$, $u-g$, $g-r$, $r-i$, and $i-z$.
 A SOM representation can be rectangular, hexagonal, or spherical;
 here we choose a 10$\times$10 rectangular topology to facilitate 
-visualization as shown in Figure.~\ref{fig:som_colors}.
+visualization as shown in Figure~\ref{fig:som_colors}.
 For all combination methods,
-we use only the OOB (cross validation) data contained in each cell
+we use only the OOB (cross-validation) data contained in each cell
 to compute the relative weights for the base classifiers.
 The weights within individual cells are then applied to the test data
 to make the prediction.
@@ -650,11 +669,11 @@ After all maps are built,
 we have a total of $N_R \times N_M$ probabilistic outputs
 for each of the $N$ sources.
 To produce a single probability estimate for each source,
-one can take the mean, the median, or some other simple statistic.
+we could take the mean, the median, or some other simple statistic.
 With a sufficient number of maps,
 we find that there is usually negligible difference
-between taking the mean and taking the median,
-and so we use the median in the following sections.
+between taking the mean and taking the median, and
+use the median in the following sections.
 We note that it is also possible to establish confidence intervals
 using the distribution of the probability estimates.
 
@@ -665,18 +684,19 @@ to simply add the individual classifications from the base classifiers
 and renormalize the sum.
 In this case, the final probability is given by
 \begin{equation}
-P\left(S | \mathbf{x}, \mathbf{M} \right)
-= \sum_{i} P \left( S | \mathbf{x}, M_{i} \right),
+P\left(S | \bmath{x}, \bmath{M} \right)
+= \sum_{i} P \left( S | \bmath{x}, M_{i} \right),
 \end{equation}
 
 \noindent
-where $\mathbf{M}$ is the set of models
-(\texttt{TPC}, \texttt{SOMc}, \texttt{HB}, and morphological separation
+where $\bmath{M}$ is the set of models
+(TPC, SOMc, HB, and morphological separation
 in our work).
 We improve on this simple approach
 by using the binning strategy to
-calculate the weighted average of each bin separately,
-rather than globally.
+calculate the weighted average of objects in each SOM cell
+separately for each map,
+and then combine the predictions from each map into a final prediction.
 
 
 \subsection{Bucket of Models (BoM)}
@@ -684,16 +704,15 @@ rather than globally.
 After the multi-dimensional input data have been binned,
 we can use the cross-validation data
 to choose the best model within each bin,
-and we use only that model within that specific bin
+and use only that model within that specific bin
 to make predictions for the test data.
 We use the mean squared error
 (MSE; also known as Brier score~\citep{brier1950verification})
 as a classification error metric. We define MSE as
 
-\begin{equation}
-  \mathrm{MSE} = \frac{1}{N} \sum^{N - 1}_{i = 0}
+\begin{equation} \label{eq:mse}
+  \rmn{MSE} = \frac{1}{N} \sum^{N - 1}_{i = 0}
   \left( y_i - \hat{y}_i \right)^2,
-  \label{eq:mse}
 \end{equation}
 
 \noindent
@@ -714,46 +733,50 @@ An ensemble learning method of using a meta-classifier
 to combine lower-level classifiers is known as \textit{stacking}
 or \textit{stacked generalization}~\citep{wolpert1992stacked}.
 Although any arbitrary algorithm
-can theoreticaly be used as a meta-classifier,
+can theoretically be used as a meta-classifier,
 a logistic regression or a linear regression is often used
 in practice.
 In our work,
 we use a single-layer multi-response linear regression algorithm,
-which often shows the best performance~\citep{breiman1996stacked, ting1999issues}.
+which often shows the best performance~\citep{breiman1996stacked,
+ting1999issues}. 
+This algorithm
+is a variant of the least-square regression algorithm,
+where a linear regression model is constructed for each class.
 
 
 \subsection{Bayesian Model Combination}
 
-We also use a model combination technique \citep{Monteith2011} known as
-Bayesian Model Combination (BMC).
-BMC uses Bayesian principles to generate an ensemble combination of
-different classifiers~\citep{Monteith2011}.
+We also use a model combination technique known as
+Bayesian Model Combination~\citep[BMC;][]{Monteith2011}, which
+uses Bayesian principles to generate an ensemble combination of
+different classifiers.
 The posterior probability that a source is a star is given by
 
-\begin{equation}
-  P \left(S | \mathbf{x}, \mathbf{D}, \mathbf{M}, \mathbf{E} \right)
-  = \sum_{e \in \mathbf{E}} P \left(S | \mathbf{x}, \mathbf{M}, e \right)
-  P \left(e | \mathbf{D} \right),
-  \label{eq:p_star_bmc}
+\begin{equation} \label{eq:p_star_bmc}
+  P \left(S | \bmath{x}, \bmath{D}, \bmath{M}, \bmath{E} \right)
+  = \sum_{e \in \bmath{E}} P \left(S | \bmath{x}, \bmath{M}, e \right)
+  P \left(e | \bmath{D} \right),
 \end{equation}
 
 \noindent
-where $\mathbf{D}$ is the data set,
-and $e$ is an element in the ensemble space $\mathbf{E}$ of possible model combinations.
-By Bayes' Theorem, the posterior probability of $e$ given $\mathbf{D}$ is given by
+where $\bmath{D}$ is the data set,
+and $e$ is an element in the ensemble space $\bmath{E}$ of possible model combinations.
+By Bayes' Theorem, the posterior probability of $e$ given $\bmath{D}$ is given by
 
-\begin{equation}
-  P \left(e | \mathbf{D} \right)
-  = \frac{P \left(e \right)}{P \left(\mathbf{D} \right)}
-  \prod_{d \in \mathbf{D}} P \left( d | e \right)
-  \propto P \left(e\right) \prod_{d \in \mathbf{D}} P \left(d | e \right).
-  \label{eq:p_ensemble}
+\begin{equation} \label{eq:p_ensemble}
+  P \left(e | \bmath{D} \right)
+  = \frac{P \left(e \right)}{P \left(\bmath{D} \right)}
+  \prod_{d \in \bmath{D}} P \left( d | e \right)
+  \propto P \left(e\right) \prod_{d \in \bmath{D}} P \left(d | e \right).
 \end{equation}
 
 \noindent
-Here, the product of $P\left(d \mid e\right)$ is
-over all individual data $d$ in the training data $\mathbf{D}$,
-and $P\left(\mathbf{D}\right)$ is merely a normalization factor
+Here, $P\left(e \right)$ is the prior probability of $e$,
+which we assume to be uniform.
+The product of $P\left(d | e\right)$ is
+over all individual data $d$ in the training data $\bmath{D}$,
+and $P\left(\bmath{D}\right)$ is merely a normalization factor
 and not important.
 
 For binary classifiers whose output is either zero or one
@@ -771,9 +794,9 @@ $M_s$ is the number of true stars classified as galaxies,
 and $N$ is the total number of sources.
 Equation~\ref{eq:p_ensemble} then becomes
 
-\begin{equation}
-  P \left( e | \mathbf{D} \right) \propto 
-  P \left( e \right) \left(1 - \epsilon \right)^{N_s + N_g}
+\begin{equation} \label{eq:p_ensemble_discrete}
+  P \left( e | \bmath{D} \right) \propto 
+  P \left( e \right) \left(1 - \epsilon \right)^{N - M_s + M_g}
   \left( \epsilon \right)^{M_s + M_g}.
 \end{equation}
 
@@ -782,32 +805,33 @@ For probabilistic classifiers,
 we can directly use the probabilistic predictions
 and write Equation~\ref{eq:p_ensemble} as
 
-\begin{equation}
-  P \left( e | \mathbf{D} \right) \propto 
+\begin{equation} \label{eq:p_ensemble_prob}
+  P \left( e | \bmath{D} \right) \propto 
   P \left( e \right) \prod_{i=0}^{N-1}
   \hat{y}_i y_i + 
   \left(1 - \hat{y}_i\right) \left(1 - y_i\right).
 \end{equation}
 
 
-Although the space $\mathbf{E}$ of potential model combinations
+Although the space $\bmath{E}$ of potential model combinations
 is in principle infinite,
 we can produce a reasonable finite set
 of potential model combinations by using sampling techniques.
 In our implementation,
 the weights of each combination of the base classifiers
 is obtained by sampling from a Dirichlet distribution.
-We first set all alpha values of a Dirichlet distribution.
+We first set all alpha values of a Dirichlet distribution to unity.
 We then sample this distribution $q$ times
 to obtain $q$ sets of weights.
 For each combination,
 we assume a uniform prior and
-calculate $P\left(e|\mathbf{D}\right)$ using Equation~\ref{eq:p_ensemble}.
-We select the combination with the highest $P\left(e|\mathbf{D}\right)$,
+calculate $P\left(e|\bmath{D}\right)$ using
+Equation~\ref{eq:p_ensemble_discrete} or \ref{eq:p_ensemble_prob}.
+We select the combination with the highest $P\left(e|\bmath{D}\right)$,
 and update the alpha values by
 adding the weights of the most probable combination
 to the current alpha values.
-The next $q$ weight sets of weights are drawn
+The next $q$ sets of weights are drawn
 using the updated alpha values.
 
 We continue the sampling process until
@@ -815,7 +839,7 @@ we reach a predefined number of combinations,
 and finally use Equation~\ref{eq:p_star_bmc} to compute
 the posterior probability that a source is a star (or a galaxy).
 In this paper, we use a $q$ value of three,
-and 1,000 model combinations were considered.
+and 1,000 model combinations are considered.
 
 
 We also use a binned version of the BMC technique,
@@ -823,12 +847,12 @@ where we use a SOM representation
 to apply different model combinations
 for different regions of the parameter space.
 We however note that introducing randomness
-though the construction of different SOM representations
+though the construction of $N_R \times N_M$ different SOM representations
 does not show significant
 improvement over using only one single SOM representation.
 This similarity is likely due to the randomness 
 that has already been introduced by 
-the sampling from the Dirichlet distribution.
+sampling from the Dirichlet distribution.
 Thus, our BMC technique uses one SOM,
 while other base models (WA, BoM, and stacking)
 generate $N_R$ random realizations of $N_M$ maps.
@@ -840,8 +864,8 @@ generate $N_R$ random realizations of $N_M$ maps.
 We use photometric data from
 the Canada-France-Hawaii Telescope Lensing Survey
 \cite[CFHTLenS\footnote{http://www.cfhtlens.org/};][]
-{Heymans2012,Erben2013,Hildebrandt2012}.
-This catalog consits of more than twenty five million objects
+{heymans2012cfhtlens,erben2013cfhtlens,hildebrandt2012cfhtlens}.
+This catalog consists of more than twenty five million objects
 with a limiting magnitude of $i_{\text{AB}} \approx 25.5$. 
 It covers a total of 154 square degrees
 in the four fields of CFHT Legacy Survey~\citep[CFHTLS;][]{gwyn2012canada}
@@ -850,23 +874,26 @@ $u$, $g$, $r$, $i$, and $z$.
 
 We have cross-matched reliable spectroscopic galaxies from
 the Deep Extragalactic Evolutionary Probe Phase 2~
-\citep[DEEP2;][]{Davis2003,Newman2013a},
+\citep[DEEP2;][]{davis2003science,newman2013deep2},
 the Sloan Digital Sky Survey Data Release 10~\citep[SDSS-DR10]{Ahn2014},
 the VIsible imaging Multi-Object Spectrograph (VIMOS)
 Very Large Telescope (VLT) Deep Survey~
-\citep[VVDS;][]{LeFevre2005,Garilli2008}, and
-the VIMOS Public Extragalactic Redshift Survey~\citep[VIPERS;][]{Garilli2014},
+\citep[VVDS;][]{le2005vimos,garilli2008vimos}, and
+the VIMOS Public Extragalactic Redshift
+Survey~\citep[VIPERS;][]{garilli2014vimos},
 In the end, we have 8,545 stars and 57,843 galaxies available
 for the training and testing processes.
+We randomly select 13,278 objects for the blind testing set,
+and use the remainder for training and cross-validation.
 
 Our goal here is not to obtain the best classifier
 performance; for this we would have fine tuned individual base
 classifiers and chosen sophisticated models best suited to the
 particular properties of the CFHTLenS data.
-For example, \cite{Hildebrandt2012} suggest that
+For example, \cite{hildebrandt2012cfhtlens} suggest that
 all objects with $i > 23$ in the CFHTLenS dataset
 may be classified as galaxies
-without significant incompleteness in the galaxy sample.
+without significant incompleteness and contamination in the galaxy sample.
 Although this approach works because
 the high Galactic latitude fields of the CFHTLS contain
 relatively few stars,
@@ -896,9 +923,9 @@ Although the probability estimate can be used as a weight
 in subsequent analyses to improve or enhance
 a particular measurement~\citep{ross2011ameliorating},
 it can also be converted into a class label
-by using a threshold (probability cut).
+by using a threshold (a probability cut).
 The simplest way to choose the threshold is to set it to a fixed value,
-\eg $p_\mathrm{cut} = 0.5$.
+\eg $p_\rmn{cut} = 0.5$.
 This is, in fact, what is often done
 \citep[\eg][]{henrion2011bayesian, Fadely2012}.
 However, choosing $0.5$ as a threshold is not the best choice
@@ -908,21 +935,25 @@ Furthermore, setting a fixed threshold ignores the operating condition
 where the model will be applied.
 
 
+\subsubsection{Receiver Operating Characteristic Curve}
+
 When we have no information about the operating condition
 when evaluating the performance of classifiers,
 there are effective tools such as
 the Receiver Operating Characteristic (ROC) curve
-\citep{swets2000better}.
+\citep*{swets2000better}.
 An ROC curve is a graphical plot that illustrates the true positive rate
 versus the false positive rate of a binary classifier
-as its classification threshold (probability cut) is varied.
+as its classification threshold is varied.
 The Area Under the Curve (AUC) summarizes the curve information
 in a single number,
 and can be used as an assessment of the overall performance.
 
+\subsubsection{Completeness and Purity}
+
 In astronomical applications,
 the operating condition usually translates to
-the completeness and purity requirements of the star/galaxy sample,
+the completeness and purity requirements of the star or galaxy sample.
 We define the galaxy \textit{completeness}
 $c_g$ (also known as recall or sensitivity) as
 the fraction of the number of true galaxies classified as galaxies
@@ -952,16 +983,17 @@ that the threshold can be adjusted to produce
 a more complete but less pure sample,
 or a less complete but more pure one.
 To compare the performance of probabilistic classification techniques
-with that of the morphological separation,
+with that of morphological separation,
 which has a fixed completeness ($c_g = 0.9964$, $c_s = 0.7145$)
 at a certain purity ($p_g = 0.9484$, $p_s = 0.9666$),
 we adjust the threshold of probabilistic classifiers
-until the galaxy completeness matches that of the morphological classifier
-to compute $p_{g}$ at $c_g=0.9964$.
+until the galaxy completeness $c_g$ matches
+that of morphological separtion
+to compute the galaxy purity $p_{g}$ at $c_g=0.9964$.
 Similarly, the star purity $p_{s}$ at $c_{s}=0.7145$
-is computed by adjusting the threshold values
+is computed by adjusting the threshold
 until the star completeness of each classifier is equal to
-that of the morphological classifier.
+that of morphological separation.
 
 
 We can also compare the performance of different classification techniques
@@ -978,7 +1010,7 @@ for the science cases of the CFHTLenS data,
 we adopt these values to compare the classification performance
 at a reasonable operating condition.
 Thus, we compute $p_{g}$ at $c_g=0.960$
-and $c_{s}$ at $p_s=0.250$.
+and $p_{s}$ at $c_s=0.250$.
 We also use the MSE defined in Equation~\ref{eq:mse}
 as a classification error metric.
 
@@ -994,8 +1026,8 @@ as a classification error metric.
   $p_g$ & Galaxy purity \\
   $c_s$ & Star completeness \\
   $p_s$ & Star purity \\
-  $p_g(c_g=x)$ & Galaxy purity at $x$ galaxy purity \\
-  $p_s(c_s=x)$ & Star purity at $x$ star purity \\
+  $p_g(c_g=x)$ & Galaxy purity at $x$ galaxy completeness \\
+  $p_s(c_s=x)$ & Star purity at $x$ star completeness \\
   \end{tabular}
   \label{table:metrics}
 \end{table}
@@ -1028,39 +1060,37 @@ on the CFHTLenS test data.
 The bold entries highlight the best technique for any particular metric.
 The first four rows show the performance of four individual star-galaxy
 classification techniques.
-Given the wealth of training data, it is not surprising that 
-our supervised machine learning tehcnique \texttt{TPC}
-outperforms other unsupervised technique.
-\texttt{TPC} is thus shown in the first row as the benchmark.
+Given a high-quality training data, it is not surprising that 
+our supervised machine learning technique TPC
+outperforms other unsupervised techniques.
+TPC is thus shown in the first row as the benchmark.
 
 The simplest of the combination techniques, WA and BoM,
-generally do not perform better than \texttt{TPC}.
+generally do not perform better than TPC.
 It is also interesting that,
 even with binning the parameter space and selecting the best model
 within each bin,
-BoM almost always chooses \texttt{TPC} as the best model,
-and therefore gives the same performance as \texttt{TPC} in the end.
+BoM almost always chooses TPC as the best model in all bins,
+and therefore gives the same performance as TPC in the end.
 However, our BMC and stacking techniques have a similar performance
-and often outperform \texttt{TPC}.
-\textcolor{blue}{
-Although \texttt{TPC} shows the best performance as measured by the AUC,
+and often outperform TPC.
+Although TPC shows the best performance as measured by the AUC,
 BMC shows the best performance in all other metrics.
-}
 
 \begin{figure}
   \centering
-  \includegraphics[width=\linewidth]{figures/som_colors.eps}
+  \includegraphics[width=\columnwidth]{figures/som_colors.pdf}
   \caption{A two-dimensional 10$\times$10 SOM representation
            showing the mean $i$-band magnitude (top left),
            the fraction of true stars in each cell (top right),
-           and the mean values of $u-g$ and $g-r$
-           for the cross validation data.}
+           and the mean values of $u-g$ (bottom left) and $g-r$ (bottom right)
+           for the cross-validation data.}
   \label{fig:som_colors}
 \end{figure}
 
 \begin{figure}
   \centering
-  \includegraphics[width=\linewidth]{figures/weights.eps}
+  \includegraphics[width=\columnwidth]{figures/weights.pdf}
   \caption{A two-dimensional 10$\times$10 SOM representation
            showing the relative weights for the BMC combination technique
            applied to the four individual methods for the CFHTLenS data.}
@@ -1068,76 +1098,97 @@ BMC shows the best performance in all other metrics.
 \end{figure}
 
 In Figure~\ref{fig:som_colors}, we show
-the mean CFHTLenS $i$-band magnitude in the top left panel
-\textcolor{blue}{
+the mean CFHTLenS $i$-band magnitude in the top left panel,
 and the fraction of stars in each cell in the top right panel.
-}
-The bottom two panels show the mean $u-g$ and  $g-r$ colors.
-These two-dimensional maps clearly shows
+The bottom two panels show the mean $u-g$ and  $g-r$ colors in each cell.
+These two-dimensional maps clearly show
 the ability of the SOM to preserve relationships between sources
 when it projects the full nine-dimensional space to the two-dimensional map.
-The SOM mapping is a non-linear representation of all magnitudes and colors,
-and thus these SOM maps should only be used to provide guidance.
+We note that these SOM maps should only be used to provide guidance,
+as the SOM mapping is a non-linear representation of all magnitudes and colors.
 
-We can also use the same SOM to determine the relative weights for 
-the four individual classification methods for each cell.
-We present the four weight maps for the BMC technique
+We can also use the same SOM from Figure~\ref{fig:som_colors}
+to determine the relative weights for 
+the four individual classification methods in each cell.
+We present the four weight maps for the BMC technique 
 in Figure~\ref{fig:weights}.
-In these maps, a redder color indicates a higher weight,
-or equivalently that the corresponding weight performs better in that region.
+In these maps, a darker color indicates a higher weight,
+or equivalently that the corresponding classifier
+performs better in that region.
 These weight maps demonstrate the variation in
 the performance of the individual techniques across
 the two-dimensional parameter space defined by the SOM.
+Furthermore, since the maps in Figure~\ref{fig:som_colors}
+and \ref{fig:weights} are constructed using the same SOM,
+we can determine the region in the parameter space
+where each individual technique performs better or worse.
 Not surprisingly, the morphological separation
-performs best in the top left corner of the $i$-band magnitude map,
-which corresponds to the brightest CFHTLenS magnitudes $i \lesssim 20$.
-On the other hand, \texttt{TPC} seems to perform best
+performs best in the top left corner of the weight map
+in Figure~\ref{fig:weights},
+which corresponds to the brightest CFHTLenS magnitudes $i \la 20$
+in the $i$-band magnitude map of Figure~\ref{fig:som_colors}.
+It is also clear that the SOM cells where the morphological
+separation performs best have higher stellar fraction than
+the other cells. 
+On the other hand, TPC seems to perform best
 in the region that corresponds to intermediate magnitudes
-$20\gtrsim i \lesssim22.5$ and $1.5<u-g<3.0$.
-Our unsupervised learning method \texttt{SOMc}
-performs relatively better at fainter magnitudes $i>21.5$
-with $0<u-g<0.5$ and $0<g-r<0.5$.
-\textcolor{blue}{
-Although \texttt{HB} shows the worst performance
-when there exists ample training data,
-BMC still utilizes information from \texttt{HB}
-to produce an overall improvement in performance,
-especially at intermediate magnitudes $20\gtrsim i \lesssim22$.
+$20\la i \la22.5$ and $1.5 \la u-g \la 3.0$.
+Our unsupervised learning method SOMc
+performs relatively better at fainter magnitudes $i \ga 21.5$
+with $0 \la u-g \la 0.5$ and $0 \la g-r \la 0.5$.
+Although HB shows the worst performance
+when there exists a high-quality training data set,
+BMC still utilizes information from HB,
+especially at intermediate magnitudes $20\la i \la22$.
 Another interesting pattern is that
 the four techniques seem complementary,
 and they are weighted most strongly in different regions
-of the SOM representations.}
+of the SOM representation.
 
-\textcolor{blue}{In Figure~\ref{fig:purity_mag}, 
+In Figure~\ref{fig:purity_mag}, 
 we compare the star and galaxy purity values
-for morphological separation, TPC, and BMC techniques
-as a function of $i$-band magnitude for the differential counts.
-We use the kernel density estimation \cite[KDE;][]{silverman1986density}.
+for BMC, TPC, and morphological separation
+as functions of $i$-band magnitude for the differential counts.
+We use the kernel density estimation \cite[KDE;][]{silverman1986density}
+with the Gaussian kernel to smooth the fluctuations in the distribution.
 Although morphological separation shows a slightly better performance
-at bright magnitudes $i < 21$,
-BMC outperforms both morphological separation and TPC
-at faint magnitudes $i > 21$.
+in galaxy purity at bright magnitudes $i \la 20$,
+BMC outperforms both TPC and morphological separation
+at faint magnitudes $i \ga 21$.
 As the top panel shows,
 the number count distribution peaks at $i \sim 22$,
-and BMC therefore outperforms the morphological separation technique
+and BMC therefore outperforms both TPC and morphological separation
 for the majority of objects.
 It is also clear that BMC outperforms TPC over all magnitudes.
 BMC can presumably accomplish this by combining information from
 all base classifiers,
 \eg giving more weight to the morphological separation method
 at bright magnitudes.
-In Figure~\ref{fig:purity_mag_itnegrated}, we show
-the overall galaxy and star purity as a function of magnitude
+The bottom panels shows that
+the star purity of morphological separation drops to $p_s < 0.8$
+at fainter magnitudes $i > 21$.
+This is expected, as our crude morphological separation classifies
+every object as a galaxy beyond $i > 21$, and
+purity measures the number of true stars classified as stars.
+It is again clear that BMC outperforms both TPC and morphological separation
+in star purity values over all magnitudes.
+
+In Figure~\ref{fig:purity_mag_integrated}, we show
+the overall galaxy and star purity values as functions of magnitude
 for the integrated counts.
-BMC is able to maintain a galaxy purity of 0.980
-up to $i \sim 24.5$, while the galaxy purity of
-the morphological separation method drops to 95.7\%
-beyond $i \lesssim 21$.}
+Although morphological separation performs better than TPC
+at bright magnitudes, its purity values decrease as 
+the magnitudes become fainter, and
+TPC eventually outperforms morphological separation by 1--2\% at
+$i > 21$.
+BMC clearly outperforms TPC, the benchmark base classifier,
+and it maintains the overall galaxy purity of 0.980
+up to $i \sim 24.5$.
 
 
 \begin{figure}
   \centering
-  \includegraphics[width=\linewidth]{figures/purity_mag.pdf}
+  \includegraphics[width=\columnwidth]{figures/purity_mag.pdf}
   \caption{Purity as a function of the $i$-band magnitude
            as estimated by the kernel density estimation (KDE) method
            for the differential counts.
@@ -1146,88 +1197,91 @@ beyond $i \lesssim 21$.}
            The second panel shows the fraction of stars estimated by KDE
            as a function of magnitude.
            The bottom two panels compare
-           the galaxy and star purity for BMC, TPC, and 
-           morphological separation as a function of magnitude.
+           the galaxy and star purity values for BMC, TPC, and 
+           morphological separation as functions of magnitude.
            Results for BMC, TPC, and morphological separation are in
-           red, green, and blue, respectively.
+           blue, green, and red, respectively.
            The $1 \sigma$ confidence bands are estaimted by
-           bootstrap resampling.}
+           bootstrap sampling.}
   \label{fig:purity_mag}
 \end{figure}
 
 
 \begin{figure}
   \centering
-  \includegraphics[width=\linewidth]{figures/purity_mag_integrated.pdf}
+  \includegraphics[width=\columnwidth]{figures/purity_mag_integrated.pdf}
   \caption{Purity as a function of the $i$-band magnitude
            for the integrated counts.
-           The bottom two panels compare
-           the galaxy and star purity for BMC, TPC, and 
-           morphological separation as a function of magnitude.
-           Results for BMC, TPC, and morphological separation are in
-           red, green, and blue, respectively.
-           The $1 \sigma$ error bars are Poisson.}
+           The upper panel compares
+           the galaxy purity values for BMC (blue solid line),
+           TPC (green dashed line), and 
+           morphological separation (red dashed line).
+           The lower panel compares the star purity.
+           The $1 \sigma$ error bars are computed following the method
+           of \citet{paterno2004calculating} to avoid the unphysical
+           errors of binomial or Poisson statistics.}
   \label{fig:purity_mag_integrated}
 \end{figure}
 
 
-\textcolor{blue}{We also show the star and galaxy purity values
-of Table~\ref{table:metrics_all} as a function of
-photometric redshift in Figure~\ref{fig:purity_z}.
+We also show the star and galaxy purity values as a function of
+photometric redshift estimate in Figure~\ref{fig:purity_z}.
 Photo-$z$ is estimated with
-the \texttt{BPZ} algorithm~\citep{benitez2000bayesian}
+the \textsc{BPZ} algorithm~\citep{benitez2000bayesian}
 and provided with
-the CFHTLenS photometric redshift catalogue~\citep{Hildebrandt2012}.
-The advantage of BMC over morphological separation and TPC is
+the CFHTLenS photometric redshift catalogue~\citep{hildebrandt2012cfhtlens}.
+The advantage of BMC over TPC and morphological separation is
 now more pronounced in Figure~\ref{fig:purity_z}.
-Although the morphological separation method outperformed BMC
-at bright magnitudes in Figure.~\ref{fig:purity_mag},
+Although the morphological separation method outperforms BMC
+at bright magnitudes in Figure~\ref{fig:purity_mag},
 it is clear that BMC outperforms
-both morphological separation and TPC over all redshift range.
-We also present in Figure.~\ref{fig:purity_g-r}
+both TPC and morphological separation over all redshift range.
+We also present in Figure~\ref{fig:purity_g_r}
 how the star and galaxy purity values vary
 as a function of $g-r$ color.
 It is again clear that BMC outperforms
-both morphological separation and TPC over all $g-r$ color range.  }
+both TPC and morphological separation over all $g-r$ color range.  
 
 
 \begin{figure}
   \centering
-  \includegraphics[width=\linewidth]{figures/purity_z.pdf}
-  \caption{The same figures as Figure~\ref{fig:purity_mag},
-           but as a function of photometric redshift estimate
-           (photo-$z$).
+  \includegraphics[width=\columnwidth]{figures/purity_z.pdf}
+  \caption{Similar to Figure~\ref{fig:purity_mag}
+           but as a function of photo-$z$.
            The bin size of histogram in the top panel is 0.02.}
   \label{fig:purity_z}
 \end{figure}
 
 \begin{figure}
   \centering
-  \includegraphics[width=\linewidth]{figures/purity_g-r.pdf}
-  \caption{The same figure as Figure~\ref{purity_mag},
+  \includegraphics[width=\columnwidth]{figures/purity_g_r.pdf}
+  \caption{Similar to Figure~\ref{fig:purity_mag}
            but as a function of $g-r$ color.
            The bin size of histogram in the top panel is 0.05.}
-  \label{fig:purity_g-r}
+  \label{fig:purity_g_r}
 \end{figure}
 
 
-\textcolor{blue}{We show the distribution of posterior star probabilities
-in Figures~\ref{fig:p_dist}.
-The histogram of spectroscopic galaxies is in red,
-and the histogram of true stars is in black.
+In Figure~\ref{fig:p_dist_all},
+we show the distribution of $P(S)$,
+the posterior probability that an object is a star,
+for BMC, TPC, and morphological separation.
 It is interesting that the BMC technique assigns
-a probability $P\left(S\right)$ greater than 0.75
-to significally fewer true galaxies than TPC,
-presumably because BMC utilizes information from
-different types of classification techniques.}
-
+a posterior star probability $P(S) \la 0.3$
+to significantly more true galaxies than TPC,
+and a probability $P(S) \ga 0.8$ to significantly fewer true galaxies.
+By utilizing information from different types of classification techniques
+in different parts of the parameter space,
+BMC becomes more certain that an object is a star or a galaxy,
+resulting in improvement of overall performance.
 
 \begin{figure}
-  \includegraphics[width=\linewidth]{figures/p_dist.pdf}
+  \includegraphics[width=\columnwidth]{figures/p_dist.pdf}
   \caption{Histogram of the posterior probability that
            a source is a star for morphological separation (top),
-           TPC (middle), and BMC (bottom) techniques
-           for a high-quality training data.
+           TPC (middle), and BMC (bottom)
+           for a high-quality training data set.
+           The true galaxies are in green, and true stars are in blue.
            The bin size is 0.05.}
   \label{fig:p_dist_all}
 \end{figure}
@@ -1238,30 +1292,35 @@ different types of classification techniques.}
   \label{section:poor_training}
  
 It is very costly in terms of telescope time to
-obtain a large sample spectroscopic observations
+obtain a large sample of spectroscopic observations
 down to the limiting magnitude of a photometric sample.
 Thus, we investigate the impact of training set quality
 by considering a more realistic case
-where the training data is available
+where the training data set is available
 only for a small number of objects with bright magnitudes.
-\textcolor{blue}{ To emulate this scenario,
+To emulate this scenario,
 we only use objects that have spectroscopic labels
 from the VVDS 0226-04 field (which is located within the CFHTLS W1 field)
 and impose a magnitude cut of $i < 22.0$ in the training data,
-leaving us a training set with 1,365 objects.
+leaving us a training set with only 1,365 objects.
 We apply the same four star-galaxy classification techniques
-and four different combination methods,
-and test them on the same test data.
-Since the demographics of sources in the test data set
-are different from the distribution of the training data set,
-this also serves as a test of the efficacy of heterogenous training data.}
+and four combination methods,
+and measure the performance of each technique on the same test data set
+from Section~\ref{section:rich_training}.
+As the top two panels of Figures~\ref{fig:purity_mag_cut},
+\ref{fig:purity_z_cut}, and \ref{fig:purity_g_r_cut} show,
+the demographics of objects in the training set
+are different from the distribution of sources in the test set.
+Thus, this also serves as a test of the efficacy of heterogeneous training.
 
 \begin{table*}
   \caption{A summary of the classification performance metrics
            for the four individual methods
            and the four different classification combination methods
-           as applied to the CFHTLenS data in the VVDS W1 field
-           with a magnitude cut of $i < 22.0$.
+           for when the training data set consists of
+           only the sources that are in CFHTLS W1 field,
+           have spectroscopic labels available from VVDS,
+           and have $i < 22$.
            The definition of the metrics is summarized in
            Table~\ref{table:metrics}.
            The bold entries highlight the best performance values
@@ -1275,41 +1334,38 @@ We present in Table~\ref{table:metrics_cut}
 the same six metrics for each method,
 and highlight the best method for each metric.
 Overall, the results obtained for the reduced data set are remarkable.
-With poor training data, our data-driven methods,
-\texttt{TPC} and \texttt{SOMc},
-suffer a significant decrease in performance,
-although they still in general perform better than 
-the template fitting algorithm
-\texttt{HB}.
-The performance of our morphological separation method
-does not depend on the training data,
-and shows the best result in the MSE metric.
-It also outperforms other base classifiers
-in galaxy purity at galaxy completeness of 0.9964
-and in star purity at star completeness of 0.7145.
-
+With a smaller training set, our training based methods, TPC and SOMc,
+suffer a significant decrease in performance.
+The performance of morphological separation and HB
+is essentially unchanged from Table~\ref{table:metrics_all}
+as they do not depend on the training data.
 Without sufficient training data,
-the advantage of classification combination techniques
+the advantage of combining the predictions of different classifiers
 is more obvious.
 Even WA, the simplest of combination techniques, outperforms
-all individual classification techniques.
-Interestingly, although TPC does not perform better
-than morphological separation,
-BoM still chooses TPC as the best model within each SOM cell
-and shows exactly the same performance metrics as TPC.
-Stacking and BMC techniques still outperform
-all individual classification techniques,
-and BMC's improvement in performance over TPC or mophological separation
-is impressive.
+all individual classification techniques in four metrics,
+AUC, $p_s$ at $c_s=0.7145$, $p_g$ at $c_g=0.9600$, and $p_s$ at $c_s=0.2500$.
+%Interestingly, although TPC does not perform better
+%than morphological separation,
+%BoM still chooses TPC as the best model within each SOM cell
+%and shows exactly the same performance metrics as TPC.
+%Stacking and BMC techniques still outperform
+%all individual classification techniques,
+Alhtough BoM always chooses TPC as the best model
+when there is a high-quality training set,
+it now chooses various methods and outperforms all base classifiers.
+While the performance of the stacking technique is comparable
+to that of BMC in Section~\ref{section:rich_training},
+stacking now fails to outperform morphological separation.
+BMC shows an impressive performance and 
+outperforms all other classification techniques in all six metrics.
 Overall, the improvements are small but still significant
 since these metrics are averaged over the full test data.
-\textcolor{red}{Note: Numbers for WA, BOM, and Stacking seem a little bit off.
-Will investigate.}
 
 %% ROC curve for vvds i < 20
 %\begin{figure}
 %  \centering
-%  \includegraphics[width=\linewidth]{figures/roc_cut.eps}
+%  \includegraphics[width=\columnwidth]{figures/roc_cut.eps}
 %  \caption{A magnified view of the ROC curve of
 %           four star-galaxy individual classification approaches
 %           (TPC, SOMc, HB, and morphology)
@@ -1336,156 +1392,148 @@ Will investigate.}
 
 
 \begin{figure}
-  \includegraphics[width=\linewidth]{figures/som_colors_cut.eps}
-  \caption{The same figure as Figure~\ref{fig:som_colors}
-      but for the BMC technique applied to the four individual methods
-      trained with the CFHTLenS data in the VVDS W1 field
-      with $i < 22$.}
+  \includegraphics[width=\columnwidth]{figures/som_colors_cut.pdf}
+  \caption{Similar to Figure~\ref{fig:som_colors}
+           but for the reduced training data set. }
   \label{fig:som_colors_cut}
 \end{figure}
 
 \begin{figure}
-  \includegraphics[width=\linewidth]{figures/weights_cut.eps}
-  \caption{The same figure as Figure~\ref{fig:weights}
-      but for the BMC technique applied to the four invidiual methods
-      trained with the CFHTLenS data in the VVDS W1 field
-      with $i < 22$.}
+  \includegraphics[width=\columnwidth]{figures/weights_cut.pdf}
+  \caption{Similar to Figure~\ref{fig:weights}
+           but for the reduced training data set. }
   \label{fig:weights_cut}
 \end{figure}
 
 
 In Figure~\ref{fig:weights_cut}, we again show the $10\times10$
 two-dimensional weight map defined by the SOM.
-%It seems that \texttt{TPC} performs well
+%It seems that TPC performs well
 %in most of the parameter space.
-\textcolor{blue}{When the quality of training data is relatively poor,
-the performance of data driven algorithms will decrease,
-while the performance of template fitting algorithms such as \texttt{HB}
+When the quality of training data is relatively poor,
+the performance of training based algorithms will decrease,
+while the performance of template fitting algorithms
+or morphological separation methods
 is independent of training data.
 Thus, when the weight maps of Figure~\ref{fig:weights}
-and Figure~\ref{fig:weights_cut} are compared,
+and Figure~\ref{fig:weights_cut} are visually compared,
 it is clear that
-BMC algorithm now uses more information from
-morphological separation and \texttt{HB},
-while it uses considerably less information from the 
-data-driven methods, \texttt{TPC} and \texttt{SOMc}.
+the BMC algorithm now uses more information from
+morphological separation and HB,
+while it uses considerably less information from 
+our training based algorithms, TPC and SOMc.
 Not surprisingly, the morphological separation method
 performs best at bright magnitudes,
-and BMC assigns more weight to \texttt{HB} at fainter magnitudes.}
+and BMC assigns more weight to HB at fainter magnitudes.
 
-\textcolor{blue}{We present the star and galaxy purity values as a function of
+We present the star and galaxy purity values as functions of
 $i$-band magnitude for the differential counts
 in Figure~\ref{fig:purity_mag_cut}.
-Compred to Figure~\ref{fig:purity_mag},
-the purity of data-driven technique, TPC, suffers a significant
-decrease in purity.
+The normalized density distribution as a function of magnitude
+in the top panel
+and the stellar distribution in the second panel
+clearly show that the demographics of the training set and 
+that of the test set are different.
+Since the training set is cut at $i < 22$
+the density distribution falls off sharply around $i \sim 22$
+and has a higher fraction of stars than the test set.
+Compared to Figure~\ref{fig:purity_mag},
+the purity of TPC suffers a significant decrease in purity.
 However, the purity of BMC does not show such a significant drop
-and decreases by only 2-5\%, and BMC still outperforms
-the morphological separation method at fainter magnitudes $i > 21$.
-while they are similar at bright magnitudes.
+and decreases by only 2--5\%.
 As suggested by the weight maps in Figure~\ref{fig:weights_cut},
-BMC can accomplish this by shifting the weights assigned to
-each base classifier in different SOM cells,
-\ie assigning less weight to \texttt{TPC}
-and more weight to \texttt{HB} and morphological separation
-when the quality of training data is relatively poor.
-We can also see in the bottom two panels that
-the performance of morphological separation suffers
-at fainter magnitudes $i > 21$,
-while BMC shows consistently better performance over all magnitude ranges.}
+BMC can accomplish this by shifting the relative weights assigned to
+each base classifier in different SOM cells.
+As the quality of training set worsens,
+BMC assigns less weight to training based methods
+and more weight to HB and morphological separation.
+
+In Figure~\ref{fig:purity_mag_cut_integrated}, we show
+the overall galaxy and star purity values as functions of magnitude
+for the integrated counts.
+Compared to Figure~\ref{fig:purity_mag_integrated},
+the drop in the performance of TPC is clear.
+However, even when some classifers have been trained on
+a significantly reduced training set,
+BMC maintains a galaxy purity of 0.970 and a star purity of 1.0
+up to $i \sim 24.5$, and it sill outperforms morphological separation
+at fainter magnitudes $i \ga 21$.
 
 \begin{figure}
   \centering
-  \includegraphics[width=\linewidth]{figures/purity_mag_cut.pdf}
+  \includegraphics[width=\columnwidth]{figures/purity_mag_cut.pdf}
   \caption{Purity as a function of the $i$-band magnitude
-           for morphological separation, TPC, and BMC techniques
-           in the VVDS W1 field with $i < 22$.
-           Top panel shows the histogram and KDE for number distribution
-           in the test data set.
+           for the reduced training data set.
+           Top panel shows the histograms and KDEs
+           for the number count distribution for
+           the training (blue) and test (green) data set.
            The second panel shows the fraction of stars
-           in the VVDS W1 and W4 fields in green and blue, respectively.
+           in the training and test data set in blue and green, respectively.
            The bottom two panels compare
-           the galaxy and star purity for morphological separation, TPC,
-           and BMC techniques as a function of magnitude.}
+           the galaxy and star purity values for BMC, TPC, 
+           and morphological separation as functions of $i$-band magnitude.}
   \label{fig:purity_mag_cut}
 \end{figure}
 
 
-\textcolor{blue}{In Figure~\ref{fig:purity_mag_cut_itnegrated}, we show
-the overall galaxy and star purity as a function of magnitude
-for the integrated counts.
-Even when \texttt{TPC} and \texttt{SOMc} are trained on heterogenous data,
-BMC is able to maintain a galaxy purity of 0.970
-up to $i \sim 24.5$, and it sill outperforms morphological separation
-at fainter magnitudes $i \gtrsim 21$.}
-
-
 \begin{figure}
   \centering
-  \includegraphics[width=\linewidth]{figures/purity_mag_cut_integrated.pdf}
-  \caption{Purity as a function of the $i$-band magnitude
-           for the integrated counts.
-           The bottom two panels compare
-           the galaxy and star purity for BMC, TPC, and 
-           morphological separation as a function of magnitude.
-           Results for BMC, TPC, and morphological separation are in
-           red, green, and blue, respectively.
-           The error bars are Poisson.}
+  \includegraphics[width=\columnwidth]{figures/purity_mag_cut_integrated.pdf}
+  \caption{Similar to Figure~\ref{fig:purity_mag_integrated}
+           but for the reduced training data set.}
   \label{fig:purity_mag_cut_integrated}
 \end{figure}
 
 
-We also show the star and galaxy purity values
-as a function of
-photometric redshift in Figure~\ref{fig:purity_z_cut},
-and as a function of $g-r$ in Figure~\ref{fig:purity_g_r_cut}.
+We also show the star and galaxy purity values as functions of
+photo-$z$ in Figure~\ref{fig:purity_z_cut}
+and as functions of $g-r$ in Figure~\ref{fig:purity_g_r_cut}.
 Compared to Figure~\ref{fig:purity_z} and \ref{fig:purity_g_r},
-where \texttt{TPC} and \texttt{SOMc} were trained
-on a high-quality training data,
-the performance of BMC is worse in some photo-$z$ and $g-r$ ranges.
+the performance of BMC becomes worse in some photo-$z$ and $g-r$ bins.
 However, this drop in performance seems to be confined to
-only a small number of objects in particular parameter ranges,
-and BMC still outperforms both \texttt{TPC} and morphological separation
+only a small number of objects in regions of particular parameter space,
+and BMC still outperforms both TPC and morphological separation
 for the majority of objects.
 
 \begin{figure}
   \centering
-  \includegraphics[width=\linewidth]{figures/purity_z_cut.pdf}
-  \caption{The same figures as Figure~\ref{fig:purity_mag_cut},
+  \includegraphics[width=\columnwidth]{figures/purity_z_cut.pdf}
+  \caption{Similar to Figure~\ref{fig:purity_mag_cut}
            but as a function of photo-$z$.}
   \label{fig:purity_z_cut}
 \end{figure}
 
 \begin{figure}
   \centering
-  \includegraphics[width=\linewidth]{figures/purity_g_r_cut.pdf}
-  \caption{The same figure as Figure~\ref{purity_mag_cut},
+  \includegraphics[width=\columnwidth]{figures/purity_g_r_cut.pdf}
+  \caption{Similar to Figure~\ref{fig:purity_mag_cut}
            but as a function of $g-r$ color.}
-  \label{fig:purity_g-r_cut}
+  \label{fig:purity_g_r_cut}
 \end{figure}
 
 
-The difference between the posterior probability distribution of
-TPC and that of BMC is now more pronounced in Figure~\ref{fig:p_dist_cut},
-where the $P\left(S\right)$ distribution of BMC for true galaxies
+Compared to Figure~\ref{fig:p_dist_all},
+the difference between the posterior star probability distribution of
+TPC and that of BMC is now more pronounced in Figure~\ref{fig:p_dist_cut}.
+The $P\left(S\right)$ distribution of BMC for true galaxies
 falls off sharply at $P\left(S\right)\approx0.95$,
-while morphological separation and TPC techniques
+and does not assign a star probability $P(S) \ga 0.95$ to any true galaxies,
+while both morphological separation and TPC techniques
 classify some true galaxies as stars with absolute certainty.
 
+
 \begin{figure}
-  \includegraphics[width=\linewidth]{figures/p_dist_cut.pdf}
-  \caption{The same figures as Figure~\ref{fig:p_dist_all},
-           but for TPC and BMC trained with 
-           poor training data
-           (the CFHTLenS data in the VDDS field
-           with a magnitude cut of $i<22$).}
+    \centering
+  \includegraphics[width=\columnwidth]{figures/p_dist_cut.pdf}
+  \caption{Similar to Figure~\ref{fig:p_dist_all},
+           but for the reduced training data set.}
   \label{fig:p_dist_cut}
 \end{figure}
 
 
 %\begin{figure*}
 %  \centering
-%  \includegraphics[width=\linewidth]{figures/color_color.eps}
+%  \includegraphics[width=\columnwidth]{figures/color_color.eps}
 %  \caption{Color-color diagrams of sources with
 %           $0.45<P\left(S\right)<0.55$ when the BMC technique
 %           is applied to the poor training data.}
@@ -1511,52 +1559,85 @@ classify some true galaxies as stars with absolute certainty.
 \subsection{The Quality of Training Data}
   \label{section:quality_training}
 
-\textcolor{blue}{The BMC technique we have demonstrated in this work uses
+The combination techniques that we have demonstrated in this work uses
 two training based algorithms as base classifiers.
 Ideally, the training data should mirror the entire parameter space
-occupied the data to be classified.
-Yet we have seen that the BMC technique do reliably
-extraplotate past the limits of the training data,
-even when some base classifiers are trained on a hetorogenous data
-with a magnitude cut imposed.
+occupied by the data to be classified.
+Yet we have seen in Section~\ref{section:poor_training}
+that the BMC technique does reliably
+extrapolate past the limits of the training data,
+even when some base classifiers are trained on a low-quality training data set.
 In this section, we further investigate
 if and where BMC begins to break down
 by imposing various magnitude, photo-$z$, and color cuts
-to decrease the size of the training set.}
+to change the size and composition of the training set.
 
-\textcolor{blue}{In Figure.~\ref{fig:perform_mag_cut}, we present
-a visual comparison between different classification techniques
-when various magnitude cuts are applied in the training data
-and the performance is measured on the same test set.
-The top panel shows that the size of training set
-decreases as we impose more restrictive magnitude cut.
+In Figure~\ref{fig:perform_mag_cut}, we present
+a visual comparison between different classification techniques,
+when various magnitude cuts are applied in the training data,
+and the performance is measured on the same test set
+from Section~\ref{section:rich_training} and \ref{section:poor_training}.
+It is not surprising that the performance of TPC decreases
+as we decrease the size of training set
+by imposing more restrictive magnitude cuts,
+while the performance of HB and morphological separation
+is essentially unchanged.
+However, the effect of change in size and composition of the training set
+is significantly mitigated by the use of the BMC technique.
+BMC outperforms both HB and TPC in all four metrics,
+even when training is restricted to $i < 20.0$.
+BMC also consistently outperforms morphological separation
+until we impose a magnitude cut of $i < 20.0$ on the training data,
+beyond which point BMC finally performs worse than morphological separation.
 It is remarkable that BMC is able to reliably extrapolate
-past the training data and outperform \texttt{HB}, \texttt{TPC},
+past the training data to $i \sim 24.5$,
+the limiting magnitude of the test set, and outperform HB, TPC,
 and morphological separation in all performance metrics,
-even the demographics of training set does not accurately sample 
-the data to be classified and the size of training set is decreased.
-The performance is consistent until we impose a magnitude cut
-of $i < 20.5$ on the training data,
-beyond which point BMC finally performs worse than morphological separation.}
+even the demographics of training set do not accurately sample 
+the data to be classified.
 
-\textcolor{blue}{Similarly, we also present impose various
-spectroscopic redshfit and color cuts in the training data
-in Figure~\ref{fig:perform_z_cut} and Figure~\ref{fig:perform_g_r_cut},
-resepctively.
-The area under the ROC curve measures the global performance,
-and BMC still outperforms \texttt{HB} and \texttt{TPC} globally in both cases,
-even when a very restrictive cuts are applied on the training set.
-Locally, BMC begins to perform worse than morphological separation
-when a conservative cut of $z_{\mathrm{spec}} < 0.6$ is imposed.
-A color cut seems to have more pronounced effect in the performance of BMC
-as shown in Figure~\ref{fig:perform_g_r_cut}.
-When the training data set is restricted to $g - r > 0.4$,
-BMC performs worse than morphological separation.}
+Similarly, we impose various spectroscopic redshift cuts 
+on the training data in Figure~\ref{fig:perform_z_cut}. 
+BMC begins to perform worse than morphological separation
+when a conservative cut of $z_{\rmn{spec}} < 0.6$ is imposed.
+However, it is again clear that BMC is able to
+utilize information from HB and morphological separation to
+mitigate the drop in the performance of TPC.
+
+In Figure~\ref{fig:perform_g_r_cut},
+we decrease the size of training set
+by keeping red objects and gradually removing blue objects.
+A color cut seems to have a more pronounced effect
+on the performance of TPC and BMC,
+and BMC performs worse than morphological separation
+when the training set is restricted to $g - r > 0.4$.
+The performance depends more strongly on the color distribution, because 
+a significant fraction of blue objects consists of stars,
+while objects with fainter magnitudes and higher redshifts
+are mostly galaxies.
+We can verify this in Figure~\ref{fig:som_colors},
+where the darker (higher stellar fraction) cells in the upper middle region
+of the stellar fraction map (top right)
+have bright magnitudes $i \la 20$ in the $i$-band magnitude map (top left)
+and blue colors $g-r \la 0.5$ in the $g-r$ color map (bottom right).
+On the other hand, the darker (fainter magnitude) cells
+in the lower left corner of the $i$-band magnitude map
+have almost no stars in them and
+are represented by bright (low stellar fraction)
+cells in the stellar fraction map.
+Thus, these results indicate that the performance of training based
+methods depends more strongly on the composition of training data
+than on the size, and it is necessary to have
+a sufficient number of the minority class in the training data set
+to ensure optimal performance.
+
 
 \begin{figure}
-    \includegraphics[width=\linewidth]{figures/perform_mag_cut.eps}
-    \caption{The classification performance metrics for TPC, HB, morphology,
-      and BMC as applied to the CFHTLenS data in the VVDS field
+    \centering
+    \includegraphics[width=\columnwidth]{figures/perform_mag_cut.pdf}
+    \caption{The classification performance metrics for
+      BMC (blue), TPC (green), morphology (red), and HB (purple)
+      as applied to the CFHTLenS data in the VVDS field
       with various magnitude cuts.
       The top panel shows the number of sources in the training set
       at corresponding magnitude cuts.
@@ -1566,63 +1647,87 @@ BMC performs worse than morphological separation.}
 \end{figure}
 
 \begin{figure}
-    \includegraphics[width=\linewidth]{figures/perform_z_cut.eps}
-    \caption{Same as Figure.~\ref{fig:perform_mag_cut} using
-      $z_{\text{spec}}$ cuts.}
+    \centering
+    \includegraphics[width=\columnwidth]{figures/perform_z_cut.pdf}
+    \caption{Similar to Figure~\ref{fig:perform_mag_cut}
+        but using $z_{\text{spec}}$ cuts.}
     \label{fig:perform_z_cut}
 \end{figure}
 
 
 \begin{figure}
-    \includegraphics[width=\linewidth]{figures/perform_g_r.eps}
-    \caption{Same as Figure.~\ref{fig:perform_mag_cut} using
-      $g - r$ color cuts.}
+    \centering
+    \includegraphics[width=\columnwidth]{figures/perform_g_r_cut.pdf}
+    \caption{Similar to Figure~\ref{fig:perform_mag_cut}
+        but using $g - r$ color cuts.}
     \label{fig:perform_g_r_cut}
 \end{figure}
 
 \section{Conclusions}
   \label{section:conclusions}
 
-\textcolor{blue}{We
-have presented and analyzed a novel star-galaxy classification framework
-for combining classifications from the CFHTLenS project.
-In particular, we use four independent star-galaxy classification techniques:
+We have presented and analyzed a novel star-galaxy classification framework
+for combining star-galaxy classifiers using the CFHTLenS data.
+In particular, we use four independent classification techniques:
 a morphological separation method;
-\texttt{TPC}, a supervised machine learning technique
+TPC, a supervised machine learning technique
 based on prediction trees and a random forest;
-\texttt{SOMc}, an unsupervised machine leraning approach
+SOMc, an unsupervised machine learning approach
 based on self-organizing maps and a random atlas;
-and \texttt{HB}, a hierarichical bayesian template-fitting method
-that we have modified and parallized.
-Both \texttt{TPC} and \texttt{SOMc} are currently availble within
+and HB, a Hierarchical Bayesian template-fitting method
+that we have modified and parallelized.
+Both TPC and SOMc algorithms are currently available within
 a software package named
-\texttt{MLZ}\footnote{http://lcdm.astro.illinois.edu/code/mlz.html}.
-Our implementaion of \texttt{HB} and \texttt{BMC},
-as well as IPython notebooks that were used to
+\textsc{MLZ}\footnote{http://lcdm.astro.illinois.edu/code/mlz.html}.
+Our implementation of HB and BMC,
+as well as \textsc{IPython} notebooks that have been used to
 produce the results in this paper,
-are available at \url{https://github.com/EdwardJKim/astroclass}.  }
+are available at \url{https://github.com/EdwardJKim/astroclass}.  
 
-When there's wealth of training data,
-TPC is so good that combination techniques show
-no significant improvement over TPC.
+Given the variety of star-galaxy classification methods we are using,
+we fully expect the relative performance
+of the individual techniques to vary across
+the parameter space spanned by the data.
+We therefore adopt the binning strategy, where
+we allow different classifier combinations 
+in different parts of parameter space
+by creating two-dimensional self-organizing maps of
+the full multi-dimensional magnitude-color space.
+We apply different star-galaxy classification techniques
+within each cell of this map,
+and find that the four techniques are weighted most strongly
+in different regions of the map.   
 
-Even with poor (but reasonable) training data,
-TPC outperforms unsupervised methods.
-
-In a more realistic case where the training data is poor,
-BMC should be used.
-
-Probabilistic classification is better.
-Binary classification can be transformed into a probabilistic
-classification when combined with other models in a Bayesian framework.
-
-We note that \cite{carrascokind2014exhausting} analyzed
+Using data from the CFHTLenS survey,
+we have considered different scenarios:
+when an excellent training set is available with spectroscopic labels from
+DEEP2, SDSS, VIPERS, and VVDS, and
+when the demographics of sources in a low-quality training set
+do not match the demographics of objects in the test data set.
+We demonstrate that the Bayesian Model Combination (BMC) technique improves
+the overall performance over any individual classification method
+in both cases.
+We note that \citet{carrascokind2014exhausting} analyzed
 different techniques for combining
-photometric redshift probability density functions (photo-$z$ PDFs),
+photometric redshift probability density functions (photo-$z$ PDFs)
 and also found that BMC is in general the best
-photo-$z$ PDF combination technique.
+photo-$z$ PDF combination technique.   
 
-\textcolor{red}{more here}
+
+The combination technique described in this paper
+can be easily applied to other surveys.
+Given the efficacy of our approach,
+classifier combination strategies are likely the optimal approach
+for currently ongoing and forthcoming photometric surveys.
+We therefore plan to apply the combination technique described in this paper
+to other surveys such as the DES.
+Our approach can also be extended more broadly to
+classify objects that are neither stars nor galaxies (\eg quasars).
+Finally, future studies could explore the use of multi-epoch data,
+which would be particularly useful for the next generation of
+synoptic surveys.
+
+
 
 \section*{Acknowledgements}
 
@@ -1632,17 +1737,57 @@ We thank Ignacio Sevilla for helpful and insightful conversations.
 We acknowledge support from the National Science Grant No.
 \textcolor{red}{XXXX}.
 
-We gratefully acknowledge the use of computing resources
-from the Extreme Science and Engineering Discovery Environment (XSEDE),
-which is supported by National Science Foundation grant number
-\textcolor{red}{XXXX}.
+This work used the Extreme Science and Engineering Discovery Environment
+(XSEDE), which is supported by National Science Foundation grant number
+ACI-1053575.
 
-Funding for CFHTLenS has been provided by
-\textcolor{red}{XXXX}.
+This work is based on observations obtained with MegaPrime/MegaCam, a
+joint project of CFHT and CEA/DAPNIA, at the Canada-France-Hawaii
+Telescope (CFHT) which is operated by the National Research Council
+(NRC) of Canada, the Institut National des Sciences de l'Univers of
+the Centre National de la Recherche Scientifique (CNRS) of France, and
+the University of Hawaii. This research used the facilities of the
+Canadian Astronomy Data Centre operated by the National Research
+Council of Canada with the support of the Canadian Space Agency.
+CFHTLenS data processing was made possible thanks to significant
+computing support from the NSERC Research Tools and Instruments grant
+program.
 
+Funding for the DEEP2 survey has been provided by NSF grants AST-0071048,
+AST-0071198, AST-0507428, and AST-0507483. 
+
+Funding for SDSS-III has been provided by the Alfred P. Sloan Foundation, the
+Participating Institutions, the National Science Foundation, and the U.S.
+Department of Energy Office of Science. The SDSS-III web site is
+http://www.sdss3.org/.
+
+SDSS-III is managed by the Astrophysical Research Consortium for the
+Participating Institutions of the SDSS-III Collaboration including the
+University of Arizona, the Brazilian Participation Group, Brookhaven National
+Laboratory, Carnegie Mellon University, University of Florida, the French
+Participation Group, the German Participation Group, Harvard University, the
+Instituto de Astrofisica de Canarias, the Michigan State/Notre Dame/JINA
+Participation Group, Johns Hopkins University, Lawrence Berkeley National
+Laboratory, Max Planck Institute for Astrophysics, Max Planck Institute for
+Extraterrestrial Physics, New Mexico State University, New York University,
+Ohio State University, Pennsylvania State University, University of Portsmouth,
+Princeton University, the Spanish Participation Group, University of Tokyo,
+University of Utah, Vanderbilt University, University of Virginia, University
+of Washington, and Yale University.
+
+This paper uses data from the 
+VIMOS Public Extragalactic Redshift Survey (VIPERS).
+VIPERS has been performed using the ESO Very Large Telescope, under the "Large
+Programme" 182.A-0886. The participating institutions and funding agencies are
+listed at http://vipers.inaf.it/.
+
+This research uses data from the VIMOS VLT Deep Survey, obtained from the VVDS
+database operated by Cesam, Laboratoire d'Astrophysique de Marseille, France.
+
+\footnotesize{
 \bibliographystyle{mn2e}
-
 \bibliography{sg_paper}
+}
 
 \bsp
 

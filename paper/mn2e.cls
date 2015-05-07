@@ -13,6 +13,13 @@
 \def\@version{2.2}
 \typeout{Document Style `MN' v\@version, released 2001 February 20}
 
+%  Three author rule.
+
+\def\mniiiauthor#1#2#3{%
+\@ifundefined{mniiiauth@#1}
+{\global\expandafter\let\csname mniiiauth@#1\endcsname\null #2}
+{#3}}
+
 %  Journals use two-sided printing.
 %
 \@twosidetrue
