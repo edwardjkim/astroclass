@@ -1,0 +1,15 @@
+#########################################################################
+# 		 	 CE templates	-> CE_NEW_MOD.list 	 	#
+#      similar to the one described in Arnouts et al  (1999)     	#
+#      									#
+#    * 66  SEDs based on linear interpolation of      	    	        #
+#                the 4 original CWW's SEDs				#
+#        	(CWW_Ell.sed,CWW_Sbc.sed,CWW_Scd.sed,CWW_Irr.sed)	#
+#            +   1 star-forming galaxies from BC96 at ( 0.5 Gyrs)	#
+#    	          (I99_05Gy.sed)		                        #   
+#    *   extrapolated  to  Lbda >10um  with GISSEL96                    #      
+#									#
+#    *  1062 elements of lambda from 0.01um < lambda < 1000um		#
+#									#
+#    * Most of the SEDs have no physical meaning			#
+#########################################################################

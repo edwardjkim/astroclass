@@ -1,0 +1,5 @@
+uMega.fil
+gMega.fil
+rMega.fil
+iMega.fil
+zMega.fil
