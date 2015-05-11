@@ -1,0 +1,13 @@
+
+  The list CFHTLS_MOD.list includes 66 SEDs used in Ilbert et al.(2006)
+  in the CFHTLS Deep fields
+
+  They have been ran with the following parameters :
+
+   MOD_EXTINC : 40,70
+   EXTINC_LAW : SMC_prevot.dat
+   EB_V       : 0.0,0.05,0.1,0.15,0.2,0.25
+
+
+  
+ 
