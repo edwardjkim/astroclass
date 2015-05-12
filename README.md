@@ -4,6 +4,10 @@
 - Robert J. Brunner
 - Matias Carrasco Kind
 
+## Preprint
+
+http://arxiv.org/abs/1505.02200
+
 ## Dockerfile
 
 The Dockerfile for the IPython notebook server that has been used to generate the
