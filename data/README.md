@@ -1,12 +1,14 @@
 ## Column Description
 
-sp\_cat: The name of the spectroscopic catalogue where a match was found, i.e. `deep2-dr4`, `sdss-dr10`, `vipers`, and `vvds`.
+- sp\_cat: The name of the spectroscopic catalogue where a match was found, i.e. deep2-dr4, sdss-dr10, vipers, and vvds.
 
-sp\_cat\_id: The object ID in the corrsponding spectroscopic catalogue.
+- sp\_cat\_id: The object ID in the corrsponding spectroscopic catalogue.
 
-true\_class: The spectroscopic label. 0 for a galaxy, 1 for a star.
+- true\_class: The spectroscopic label. 0 for a galaxy, 1 for a star.
 
-z\_spec: Spectroscopic redshift.
+- z\_spec: Spectroscopic redshift.
+
+### CFHTLenS Column Description
 
 For details, see
 [CFTHTLenS CATALOGUE DATA DESCRIPTION](http://www.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/community/CFHTLens/README_catalogs_release.txt)
