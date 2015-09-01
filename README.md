@@ -4,9 +4,15 @@
 - Robert J. Brunner
 - Matias Carrasco Kind
 
-## Preprint
+## Paper
 
-http://arxiv.org/abs/1505.02200
+[MNRAS (2015) 453 (1): 507-521](http://mnras.oxfordjournals.org/content/453/1/507)
+
+[arXiv:1505.02200](http://arxiv.org/abs/1505.02200)
+
+## IPython/Jupyter Notebook
+
+The entire paper in a notebook: [bmc.ipynb](bmc.ipynb)
 
 ## Dockerfile
 
